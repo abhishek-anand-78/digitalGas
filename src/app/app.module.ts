@@ -12,13 +12,19 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor} from './utility/jwt.interceptor';
 import {ErrorInterceptor} from './utility/error.interceptor';
 import { fakeBackendProvider } from './utility/server.service';
+import { BillComponent } from './bill/bill.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    BillComponent,
+    TransactionComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
