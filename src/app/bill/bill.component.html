@@ -1,26 +1,124 @@
-
 <h2>Billing</h2>
 <div class="">
     <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="username">Customer Name</label>
-            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+            <label for="customerName">Customer Name</label>
+            <input type="text" formControlName="customerName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerName.errors }"
             />
-            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Customer Name is required</div>
+            <div *ngIf="submitted && f.customerName.errors" class="invalid-feedback">
+                <div *ngIf="f.customerName.errors.required">Customer Name is required</div>
             </div>
         </div>
         <div class="form-group">
             <label for="address">Customer Address</label>
-            <input type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
             />
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.password.errors.required">Customer Address</div>
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                <div *ngIf="f.address.errors.required">Customer Address is required</div>
             </div>
         </div>
+
+
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-sm-3 form-group">
+                <label for="billNumber">Bill Number</label>
+                <input type="text" formControlName="billNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billNumber.errors }"
+                />
+                <div *ngIf="submitted && f.billNumber.errors" class="invalid-feedback">
+                    <div *ngIf="f.billNumber.errors.required">Bill Number is required</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="partyGstNumber">Party GSTIN</label>
+                <input type="text" formControlName="partyGstNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.partyGstNumber.errors }"
+                />
+                <div *ngIf="submitted && f.partyGstNumber.errors" class="invalid-feedback">
+                    <div *ngIf="f.partyGstNumber.errors.required">Party GSTIN is required</div>
+                </div>
+            </div>
+            <div class="col-md-5 col-lg-5 col-sm-5 form-group">
+                <label for="date">Date</label>
+                <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
+                />
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                    <div *ngIf="f.date.errors.required">Please select date</div>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
-             <button [disabled]="loading" class="btn btn-primary">Login</button>
-             <button [disabled]="loading" class="btn btn-primary saveButton">Save</button>
+            <label for="description">Description</label>
+            <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+            />
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Description is required</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="quantity">Quantity</label>
+                <input type="text" formControlName="quantity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"
+                />
+                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                    <div *ngIf="f.quantity.errors.required">Quantity is required</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="rate">Rate </label>
+                <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }"
+                />
+                <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+                    <div *ngIf="f.rate.errors.required">Rate is required</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="totalAmount">Total Amount</label>
+                <input type="text" formControlName="totalAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
+                />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                <label for="cgst">CGST %</label>
+                <input type="text" formControlName="cgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }"
+                />
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                <label for="sgst">SGST %</label>
+                <input type="text" formControlName="sgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }"
+                />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                <label for="netAmountPayable">Net Amount Payable</label>
+                <input type="text" formControlName="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
+                />
+            </div>
+        </div>
+
+             <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                <label for="amountPaid">Amount Paid</label>
+                <input type="text" formControlName="amountPaid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
+                />
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                <label for="amountDue">Amount Due</label>
+                <input type="text" formControlName="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
+                />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Generate Bill</button>
+            <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
         </div>
     </form>
 </div>

@@ -14,13 +14,31 @@ export class BillComponent implements OnInit {
 
   ngOnInit() {
     this.billForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      customerName: ['', Validators.required],
+      address: ['', Validators.required],
+      billNumber: ['', Validators.required],
+      partyGstNumber: ['', Validators.required],
+      date: ['', Validators.required],
+      description: ['', Validators.required],
+      quantity: ['', Validators.required],
+      rate: ['', Validators.required],
+      totalAmount: ['', Validators.required],
+      cgst: ['', Validators.required],
+      sgst: ['', Validators.required],
+      netAmountPayable: [''],
+      amountPaid: [''],
+      amountDue: ['']
     });
   }
-  
+
   get f() {
     return this.billForm.controls;
   }
+
+  onSubmit() {
+    //this.billForm.controls.netAmountPayable.value
+    console.log(this.billForm.controls.netAmountPayable.value);
+  }
+
 
 }
