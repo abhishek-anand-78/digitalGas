@@ -1,6 +1,6 @@
 <h2>Billing</h2>
 <div class="">
-    <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="billForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="customerName">Customer Name</label>
             <input type="text" formControlName="customerName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerName.errors }"
@@ -117,7 +117,7 @@
 
 
         <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary">Generate Bill</button>
+            <button [disabled]="loading" class="btn btn-primary" (click) = 'generateBill()'>Generate Bill</button>
             <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
         </div>
     </form>

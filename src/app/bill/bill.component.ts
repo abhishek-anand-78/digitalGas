@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Http } from '@angular/http';
+import { MyType } from '../utility/interfaces';
 
 @Component({
   selector: 'app-bill',
@@ -9,8 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class BillComponent implements OnInit {
   billForm: FormGroup;
   submitted = false;
+  billData = {};
 
-  constructor(private formBuilder: FormBuilder, ) { }
+  constructor(private formBuilder: FormBuilder, public http: Http) { }
 
   ngOnInit() {
     this.billForm = this.formBuilder.group({
@@ -35,10 +38,49 @@ export class BillComponent implements OnInit {
     return this.billForm.controls;
   }
 
+
+  loadData() {
+    this.billData = {
+      customerName: this.billForm.controls.customerName.value,
+      address: this.billForm.controls.address.value,
+      billNumber: this.billForm.controls.billNumber.value,
+      partyGstNumber: this.billForm.controls.partyGstNumber.value,
+      date: this.billForm.controls.date.value,
+      description: this.billForm.controls.description.value,
+      quantity: this.billForm.controls.quantity.value,
+      rate: this.billForm.controls.rate.value,
+      totalAmount: this.billForm.controls.customerName.value,
+      cgst: this.billForm.controls.cgst.value,
+      sgst: this.billForm.controls.sgst.value,
+      netAmountPayable: this.billForm.controls.netAmountPayable.value,
+      amountPaid: this.billForm.controls.amountPaid.value,
+      amountDue: this.billForm.controls.amountDue.value
+    }
+    return this.billData;
+  }
+
   onSubmit() {
     //this.billForm.controls.netAmountPayable.value
-    console.log(this.billForm.controls.netAmountPayable.value);
+    console.log(this.billForm.controls);
   }
+
+  generateBill() {
+    this.loadData();
+    let url = "http://localhost:8081/myaction";
+
+    this.http.post(url, this.billData)
+      .subscribe(res =>
+        console.log(res)
+      );
+
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    //  a.style = "display: none";
+    a.href = 'downloads/' + 'bill' + '.docx';
+    a.download = 'downloads/' + 'bill' + '.docx';
+    a.click();
+  }
+
 
 
 }
