@@ -28,7 +28,7 @@ var WordCreator = function () {
             opts: {
                 cellColWidth: 4261,
                 b: true,
-                sz: '48',
+                sz: '80',
                 shd: {
                     fill: "7F7F7F",
                     themeFill: "text1",
@@ -40,10 +40,10 @@ var WordCreator = function () {
             val: "Title1",
             opts: {
                 b: true,
-                color: "A00000",
-                align: "right",
+                color: "000000",
+                align: "center",
                 shd: {
-                    fill: "92CDDC",
+                    fill: "80dfff",
                     themeFill: "text1",
                     "themeFillTint": "80"
                 }
@@ -76,69 +76,7 @@ var WordCreator = function () {
         tableFontFamily: "Comic Sans MS"
     }
 
-    var data = [[{
-        type: "text",
-        val: "Simple"
-    }, {
-        type: "text",
-        val: " with color",
-        opt: { color: '000088' }
-    }, {
-        type: "text",
-        val: "  and back color.",
-        opt: { color: '00ffff', back: '000088' }
-    }, {
-        type: "linebreak"
-    }, {
-        type: "text",
-        val: "Bold + underline",
-        opt: { bold: true, underline: true }
-    }], {
-        type: "horizontalline"
-    }, [{ backline: 'EDEDED' }, {
-        type: "text",
-        val: "  backline text1.",
-        opt: { bold: true }
-    }, {
-        type: "text",
-        val: "  backline text2.",
-        opt: { color: '000088' }
-    }], {
-        type: "text",
-        val: "Left this text.",
-        lopt: { align: 'left' }
-    }, {
-        type: "text",
-        val: "Center this text.",
-        lopt: { align: 'center' }
-    }, {
-        type: "text",
-        val: "Right this text.",
-        lopt: { align: 'right' }
-    }, {
-        type: "text",
-        val: "Fonts face only.",
-        opt: { font_face: 'Arial' }
-    }, {
-        type: "text",
-        val: "Fonts face and size.",
-        opt: { font_face: 'Arial', font_size: 40 }
-    }, {
-        type: "table",
-        val: table,
-        opt: tableStyle
-    }, [{ // arr[0] is common option.
-        align: 'right'
-    }, {
-        type: "image",
-        path: path.resolve(__dirname, 'images_for_examples/sword_001.png')
-    }, {
-        type: "image",
-        path: path.resolve(__dirname, 'images_for_examples/sword_002.png')
-    }], {
-        type: "pagebreak"
-    }
-    ]
+
     var pObj = docx.createP();
     var pObj = docx.createTable(table, tableStyle);
     var out = fs.createWriteStream('../../../downloads/out.docx');

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
-import { MyType } from '../utility/interfaces';
 
 @Component({
   selector: 'app-bill',
@@ -72,12 +71,13 @@ export class BillComponent implements OnInit {
       .subscribe(res =>
         console.log(res)
       );
-
+    
     var a = document.createElement("a");
     document.body.appendChild(a);
     //  a.style = "display: none";
-    a.href = 'downloads/' + 'bill' + '.docx';
-    a.download = 'downloads/' + 'bill' + '.docx';
+    let location = "http://localhost:4200/"
+    a.href = location + 'downloads/'+'out' + '.docx';
+    a.download = 'out' + '.docx';
     a.click();
   }
 
