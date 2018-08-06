@@ -74,8 +74,8 @@ export class BillComponent implements OnInit {
     
     var a = document.createElement("a");
     document.body.appendChild(a);
-    //  a.style = "display: none";
-    let location = "http://localhost:4200/"
+    let location = "http://localhost:4200/";
+    let l = "http://localhost:8081/";
     a.href = location + 'downloads/'+'out' + '.docx';
     a.download = 'out' + '.docx';
     a.click();

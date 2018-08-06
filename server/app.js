@@ -24,27 +24,27 @@ app.get('/', function (req, res) {
 app.post('/myaction', json, function (req, res) {
     console.log("Got a POST request for the homepage");
     console.log("req body >>>>>>>", req.body);
-    var url = "http://localhost:4200/";
-    var dest = 'C:/Users/sinha_ab/Desktop/dg/downloads/out.docx'
-    download(url, dest, function () {
-        console.log("executed");
-    });
+    
     res.send('Hello POST');
 })
 
-
-var download = function (url, dest, cb) {
-    var file = fs.createWriteStream(dest);
-    var request = http.get(url, function (response) {
-        response.pipe(file);
-        file.on('finish', function () {
-            file.close(cb);  // close() is async, call cb after close completes.
-        });
-    }).on('error', function (err) { // Handle errors
-        fs.unlink(dest); // Delete the file async. (But we don't check the result)
-        if (cb) cb(err.message);
-    });
-};
+// var url = "http://localhost:4200/";
+// var dest = 'C:/Users/sinha_ab/Desktop/dg/downloads/out.docx'
+//  download(url, dest, function () {
+//         console.log("executed");
+//     });
+// var download = function (url, dest, cb) {
+//     var file = fs.createWriteStream(dest);
+//     var request = http.get(url, function (response) {
+//         response.pipe(file);
+//         file.on('finish', function () {
+//             file.close(cb);  // close() is async, call cb after close completes.
+//         });
+//     }).on('error', function (err) { // Handle errors
+//         fs.unlink(dest); // Delete the file async. (But we don't check the result)
+//         if (cb) cb(err.message);
+//     });
+// };
 
 
 
