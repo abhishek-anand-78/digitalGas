@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 app.post('/myaction', json, function (req, res) {
     console.log("Got a POST request for the homepage");
     console.log("req body >>>>>>>", req.body);
-    
+
     res.send('Hello POST');
 })
 
@@ -47,7 +47,34 @@ app.post('/myaction', json, function (req, res) {
 // };
 
 
+app.get('/getSettings', json, function (req, res) {
+    console.log(req.body);
+    getSettings().then(function (resp) {
+        res.status(200).send({ "success": 'Y', "data": resp });
+    }, function (err) {
+        res.status(500).send({ "success": 'N', msg: err });
+    })
+});
 
+getSettings = function () {
+    return new Promise(function (resolve, reject) {
+        MongoQuery.getUserWithID(DB_NAME, 'user_settings', SETTINGS_TABLE_NAME).then(function (response) {
+            if (response && response.length > 0) {
+                response = response[0];
+                if (response.hasOwnProperty('_id')) {
+                    delete response['_id'];
+                }
+                resolve(response.settings)
+            } else {
+                resolve({})
+            }
+
+        }, function (msg) {
+            reject({ "success": 'N', msg: msg });
+        })
+    })
+
+}
 
 
 
