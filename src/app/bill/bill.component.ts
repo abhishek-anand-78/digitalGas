@@ -71,12 +71,12 @@ export class BillComponent implements OnInit {
       .subscribe(res =>
         console.log(res)
       );
-    
+
     var a = document.createElement("a");
     document.body.appendChild(a);
     let location = "http://localhost:4200/";
-    let l = "http://localhost:8081/";
-    a.href = location + 'downloads/'+'out' + '.docx';
+    let l ='C:/Users/sinha_ab/Desktop/dg/'
+    a.href = location + 'downloads/' + 'out' + '.docx';
     a.download = 'out' + '.docx';
     a.click();
   }
