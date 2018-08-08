@@ -1,7 +1,6 @@
 var express = require('express');
 var cors = require('cors');
 var app = express();
-var download = require('download-file')
 var bodyParser = require('body-parser');
 var json = bodyParser.json();
 var http = require('http');
@@ -37,9 +36,9 @@ app.get('/', function (req, res) {
 app.post('/myaction', json, function (req, res) {
     console.log("Got a POST request for the homepage");
     console.log("req body >>>>>>>", req.body);
-    wordcreator().then(function (response) {
-        console.log("file created successfully");
-    });
+    // wordcreator().then(function (response) {
+    //     console.log("file created successfully");
+    // });
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
         console.log('Details inserted successfully...');
         res.status(200).send({ "success": 'Y', "data": response });

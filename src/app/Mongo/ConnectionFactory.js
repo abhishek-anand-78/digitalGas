@@ -39,9 +39,9 @@ function ConnectionFactory(host, port, db_name) {
 					dbo.createCollection("CustomerData", function (err, res) {
 						if (err) throw err;
 						console.log("CustomerData Collection created!");
-						db.close();
+						reslove(db);
 					});
-					reslove(db);
+
 				}
 			});
 		})

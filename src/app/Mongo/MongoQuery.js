@@ -3,12 +3,12 @@ var MongoQuery = function () {
 	return {
 		getAllUserData: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
-				console.log(new ConnectionFactory().url)
+				console.log("HI");
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.find(query).toArray(function (err, data) {
-						//con.close();
+					userCollection.find().toArray(function (err, data) {
+						console.log("Hello");
 						if (err) {
 							reject(err);
 						}
@@ -34,6 +34,7 @@ var MongoQuery = function () {
 				});
 			});
 		},
+
 
 		getTableData: function (db_name, tableName, returnFullArray) {
 			return new Promise(function (reslove, reject) {

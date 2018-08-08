@@ -72,13 +72,13 @@ export class BillComponent implements OnInit {
         console.log(res)
       );
 
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    let location = "http://localhost:4200/";
-    let l ='C:/Users/sinha_ab/Desktop/dg/'
-    a.href = location + 'downloads/' + 'out' + '.docx';
-    a.download = 'out' + '.docx';
-    a.click();
+    // var a = document.createElement("a");
+    // document.body.appendChild(a);
+    // let location = "http://localhost:4200/";
+    // let l ='C:/Users/sinha_ab/Desktop/dg/'
+    // a.href = location + 'downloads/' + 'out' + '.docx';
+    // a.download = 'out' + '.docx';
+    // a.click();
   }
 
 
