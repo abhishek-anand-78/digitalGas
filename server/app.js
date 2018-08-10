@@ -36,9 +36,9 @@ app.get('/', function (req, res) {
 app.post('/myaction', json, function (req, res) {
     console.log("Got a POST request for the homepage");
     console.log("req body >>>>>>>", req.body);
-    // wordcreator().then(function (response) {
-    //     console.log("file created successfully");
-    // });
+    wordcreator().then(function (response) {
+        console.log("file created successfully");
+    });
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
         console.log('Details inserted successfully...');
         res.status(200).send({ "success": 'Y', "data": response });
@@ -63,12 +63,14 @@ app.post('/search', json, function (req, res) {
 
 wordcreator = function () {
     return new Promise(function (resolve, reject) {
-        fs.writeFile('C:/Users/sinha_ab/Desktop/dg/downloads/out.docx', 'Hello', function (err) {
+        var path = "C:\\Users\\sinha_ab\\Desktop\\dg\\downloads\\out.doc"; 
+        fs.writeFile(path, 'Hello', function (err) {
             if (err) throw err;
             console.log('Saved!');
             resolve();
         }),function(err){
             console.log("error while saving...");
+            reject();
         }
     })
 }

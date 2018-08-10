@@ -38,8 +38,7 @@
             </div>
             <div class="col-md-5 col-lg-5 col-sm-5 form-group">
                 <label for="date">Date</label>
-                <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
-                />
+                <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
                 <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
                     <div *ngIf="f.date.errors.required">Please select date</div>
                 </div>
@@ -66,8 +65,7 @@
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                 <label for="rate">Rate </label>
-                <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }"
-                />
+                <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }" />
                 <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
                     <div *ngIf="f.rate.errors.required">Rate is required</div>
                 </div>
@@ -82,14 +80,12 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="cgst">CGST %</label>
-                <input type="text" formControlName="cgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }"
-                />
+                <input type="text" formControlName="cgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
             </div>
 
             <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="sgst">SGST %</label>
-                <input type="text" formControlName="sgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }"
-                />
+                <input type="text" formControlName="sgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
             </div>
         </div>
 
@@ -101,7 +97,7 @@
             </div>
         </div>
 
-             <div class="row">
+        <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="amountPaid">Amount Paid</label>
                 <input type="text" formControlName="amountPaid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
@@ -117,7 +113,7 @@
 
 
         <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary" (click) = 'generateBill()'>Generate Bill</button>
+            <button [disabled]="loading" class="btn btn-primary" (click)='generateBill()'>Generate Bill</button>
             <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
         </div>
     </form>

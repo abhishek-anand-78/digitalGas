@@ -68,16 +68,18 @@ export class BillComponent implements OnInit {
     let url = "http://localhost:8081/myaction";
 
     this.http.post(url, this.billData)
-      .subscribe(res =>
+      .subscribe(res => {
         console.log(res)
-      );
+      }, err => {
+        console.log("error occurred", err);
+      });
 
     // var a = document.createElement("a");
     // document.body.appendChild(a);
     // let location = "http://localhost:4200/";
-    // let l ='C:/Users/sinha_ab/Desktop/dg/'
-    // a.href = location + 'downloads/' + 'out' + '.docx';
-    // a.download = 'out' + '.docx';
+    // let l ='C://Users//sinha_ab//Desktop//dg//'
+    // a.href = l + 'downloads//' + 'out' + '.doc';
+    // a.download = 'out' + '.doc';
     // a.click();
   }
 

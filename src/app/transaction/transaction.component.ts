@@ -11,9 +11,12 @@ export class TransactionComponent implements OnInit {
   transactionForm: FormGroup;
   submitted = false;
   transData = {};
+  loading = false;
+  transactionDetails = {};
   constructor(private formBuilder: FormBuilder, public http: Http) { }
 
   ngOnInit() {
+    this.loading = false;
     this.transactionForm = this.formBuilder.group({
       months: ['', Validators.required],
       year: ['', Validators.required]
@@ -23,7 +26,7 @@ export class TransactionComponent implements OnInit {
   get f() {
     return this.transactionForm.controls;
   }
-  onSubmit(){
+  onSubmit() {
     console.log("Trasaction form submitted");
   }
 
@@ -34,14 +37,21 @@ export class TransactionComponent implements OnInit {
     }
     return this.transData;
   }
-  
-  search() {
+
+  search(): void {
+    this.loading = true;
     this.initialize();
     let url = "http://localhost:8081/search";
+    var me = this;
     this.http.post(url, this.transData)
-      .subscribe(res =>
-        console.log(res)
-      );
+      .subscribe(res => {
+        console.log(res);
+        this.transactionDetails = res;
+      }, err => {
+        console.log("error occurred", err);
+      });
+    // me.transactionDetails = res;
+
   }
 
 }
