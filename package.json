@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "node app.js"
+    "local": "concurrently \"ng serve\" \"node server/app.js\"",
+    "dev": "node server/app.js "
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
+    "concurrently": "^3.6.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.4",
     "cors": "^2.8.4",
