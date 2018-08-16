@@ -28,7 +28,7 @@ var WordCreator = function () {
             opts: {
                 cellColWidth: 4261,
                 b: true,
-                sz: '80',
+                sz: '35',
                 shd: {
                     fill: "7F7F7F",
                     themeFill: "text1",
@@ -42,6 +42,7 @@ var WordCreator = function () {
                 b: true,
                 color: "000000",
                 align: "center",
+                sz: '35',
                 shd: {
                     fill: "80dfff",
                     themeFill: "text1",
@@ -54,23 +55,78 @@ var WordCreator = function () {
                 align: "center",
                 cellColWidth: 42,
                 b: true,
-                sz: '48',
+                sz: '35',
                 shd: {
                     fill: "92CDDC",
                     themeFill: "text1",
                     "themeFillTint": "80"
-                }
+                }                
+            }
+        },
+        {
+            val: "Title3",
+            opts: {
+                align: "center",
+                cellColWidth: 12,
+                b: true,
+                sz: '35',
+                shd: {
+                    fill: "92CDDC",
+                    themeFill: "text1",
+                    "themeFillTint": "80"
+                }                
+            }
+        },
+        {
+            val: "Title4",
+            opts: {
+                align: "center",
+                cellColWidth: 12,
+                b: true,
+                sz: '35',
+                shd: {
+                    fill: "92CDDC",
+                    themeFill: "text1",
+                    "themeFillTint": "80"
+                }                
+            }
+        },{
+            val: "Title5",
+            opts: {
+                align: "center",
+                cellColWidth: 12,
+                b: true,
+                sz: '35',
+                shd: {
+                    fill: "92CDDC",
+                    themeFill: "text1",
+                    "themeFillTint": "80"
+                }                
+            }
+        },{
+            val: "Title6",
+            opts: {
+                align: "center",
+                cellColWidth: 12,
+                b: true,
+                sz: '35',
+                shd: {
+                    fill: "92CDDC",
+                    themeFill: "text1",
+                    "themeFillTint": "80"
+                }                
             }
         }],
-        [1, 'All grown-ups were once children', ''],
-        [2, 'there is no harm in putting off a piece of work until another day.', ''],
-        [3, 'But when it is a matter of baobabs, that always means a catastrophe.', ''],
-        [4, 'watch out for the baobabs!', 'END'],
+        [1, 'All grown-ups were once children', '','','',''],
+        [2, 'there is no harm in putting off a piece of work until another day.', '','','',''],
+        [3, 'But when it is a matter of baobabs, that always means a catastrophe.', '','','',''],
+        [4, 'watch out for the baobabs!', 'END','','',''],
     ]
 
     var tableStyle = {
         tableColWidth: 4261,
         tableSize: 24,
+        borders: true,
         tableColor: "ada",
         tableAlign: "left",
         tableFontFamily: "Comic Sans MS"

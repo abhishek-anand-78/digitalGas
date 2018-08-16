@@ -31,7 +31,8 @@ import { HttpModule } from '@angular/http';
     BrowserModule,
     ReactiveFormsModule,
     routing,
-    HttpModule
+    HttpModule,
+    HttpClientModule
   ],
   providers: [AlertService
     // AuthenticationService, fakeBackendProvider,
