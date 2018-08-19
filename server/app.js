@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 var json = bodyParser.json();
 var http = require('http');
 var fs = require('fs');
-const pdfInvoice = require('./pdf-invoice')
+const pdfInvoice = require('./pdf-invoice');
+const generateExcel = require('./create_excel/createExcel');
 
 //mongodb configurations
 var HOST = 'localhost';
@@ -63,6 +64,20 @@ app.post('/search', json, function (req, res) {
         res.status(500).send({ "success": 'N', msg: msg });
     })
 });
+
+// handle download excel file
+app.post('/downloadexcel', json, function (req, res) {    
+    MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( async function (response) {
+        await generateExcel.generateExcel();        
+        res.sendFile('G:\\digitalGas\\downloads\\export.xlsx');
+        console.log('Details found .....');
+        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
+
 
 wordcreator = function (data) {    
     const document = pdfInvoice({

@@ -5,7 +5,7 @@ module.exports = {
     createdAt: 'Digital Gas',
     amount: 'Total',
     chargeStatus: 'chargeStatus',
-    chargeFor: 'chargeFor: ',
+    chargeFor: 'To, ',
     description: 'Description',
     name: 'Rate',
     quantity: 'Quantity'

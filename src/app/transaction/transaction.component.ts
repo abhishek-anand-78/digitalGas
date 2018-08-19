@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Http } from '@angular/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-transaction',
@@ -13,7 +14,7 @@ export class TransactionComponent implements OnInit {
   transData = {};
   loading = false;
   transactionDetails = {};
-  constructor(private formBuilder: FormBuilder, public http: Http) { }
+  constructor(private formBuilder: FormBuilder, public http: HttpClient) { }
 
   ngOnInit() {
     this.loading = false;
@@ -51,6 +52,30 @@ export class TransactionComponent implements OnInit {
         console.log("error occurred", err);
       });
     // me.transactionDetails = res;
+  }
 
+  download_excel() {
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    let binaryData = [];
+    let url = "http://localhost:8081/downloadexcel";
+    
+    
+    this.http.post(url, this.transData, {
+      responseType: 'arraybuffer'      
+    })
+      .subscribe(res => {
+        console.log(res);
+        binaryData.push(res);
+        let file = new Blob(binaryData, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+        let fileURL = window.URL.createObjectURL(file);
+        a.href = fileURL;
+        a.download = 'export.xlsx';
+        a.click();
+      }, err => {
+        console.log("error occurred", err);
+      });
+    
+    
   }
 }

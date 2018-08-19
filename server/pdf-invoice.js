@@ -36,7 +36,7 @@ function PDFInvoice(_ref) {
 
   return {
     genHeader: function genHeader() {
-      doc.fontSize(20).text(company.name, CONTENT_LEFT_PADDING, 50);
+      doc.fontSize(16).text(company.name, CONTENT_LEFT_PADDING, 50);
 
       var borderOffset = doc.currentLineHeight() + 70;
 
@@ -58,9 +58,11 @@ function PDFInvoice(_ref) {
       doc.fillColor('#333333');
     },
     genCustomerInfos: function genCustomerInfos() {
-      doc.fontSize(TEXT_SIZE).text(translate.chargeFor, CONTENT_LEFT_PADDING, 400);
+      doc.fontSize(12).text(translate.chargeFor, CONTENT_LEFT_PADDING, 400);
 
-      doc.text(customer.name + ' <' + customer.email + '>');
+      doc.text( customer.name );
+      // doc.text( customer.email );
+      doc.text( customer.address );
     },
     genTableHeaders: function genTableHeaders() {
       ['description', 'quantity','name', 'amount'].forEach(function (text, i) {
