@@ -1,0 +1,47 @@
+[
+    {
+        "customerName": "Abck",
+        "customerAddress": "",
+        "billNumber": "",
+        "partyGstNumber": "",
+        "date": "",
+        "quantity": "",
+        "rate": "",
+        "totalAmount": "",
+        "cgst": "",
+        "sgst": "",
+        "netAmountPayable": "",
+        "amountPaid": "67",
+        "amountDue": "89"
+    },
+    {
+        "customerName": "Vivek",
+        "customerAddress": "wakad",
+        "billNumber": "",
+        "partyGstNumber": "",
+        "date": "",
+        "quantity": "",
+        "rate": "",
+        "totalAmount": "",
+        "cgst": "",
+        "sgst": "",
+        "netAmountPayable": "",
+        "amountPaid": "78",
+        "amountDue": "90"
+    },
+     {
+        "customerName": "Anand",
+        "customerAddress": "wakad",
+        "billNumber": "",
+        "partyGstNumber": "",
+        "date": "",
+        "quantity": "",
+        "rate": "",
+        "totalAmount": "",
+        "cgst": "",
+        "sgst": "",
+        "netAmountPayable": "",
+        "amountPaid": "45",
+        "amountDue": "67"
+    }
+]

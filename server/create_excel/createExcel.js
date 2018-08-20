@@ -1,8 +1,12 @@
 var Excel = require('exceljs');
+var fs = require('fs');
+var rawdata = fs.readFileSync("mock.json");
+this.response = JSON.parse(rawdata);
+console.log("this.response", this.response);
 // generateExcel = function(){  
- var generateExcel = function(response){  
-     
-     return new Promise(function(Resolve, Reject) {   
+var generateExcel = function (response) {
+
+    return new Promise(function (Resolve, Reject) {
         let workbook = new Excel.Workbook();
         var worksheet = workbook.addWorksheet('My Sheet');
         console.log('i am in xls file');
@@ -23,13 +27,14 @@ var Excel = require('exceljs');
             { header: 'Amount Paid', key: 'amountPaid', width: 32 },
             { header: 'Amount Due', key: 'amountDue', width: 10 }
         ];
-        for(let i=0;i<response.length;i++){
-            worksheet.addRow({id: i + 1, custName: response[i].customerName, custAddress: response[i].customerAddress,
-                 billNum : response[i].billNumber, partyGST : response[i].partyGstNumber, date : response[i].date,
-                 quantity : response[i].quantity, rate : response[i].rate, totalAmount : response[i].totalAmount,
-                 cgst : response[i].cgst, sgst : response[i].sgst, netAmount : response[i].netAmountPayable,
-                 amountPaid : response[i].amountPaid, amountDue : response[i].amountDue
-                });    
+        for (let i = 0; i < response.length; i++) {
+            worksheet.addRow({
+                id: i + 1, custName: response[i].customerName, custAddress: response[i].customerAddress,
+                billNum: response[i].billNumber, partyGST: response[i].partyGstNumber, date: response[i].date,
+                quantity: response[i].quantity, rate: response[i].rate, totalAmount: response[i].totalAmount,
+                cgst: response[i].cgst, sgst: response[i].sgst, netAmount: response[i].netAmountPayable,
+                amountPaid: response[i].amountPaid, amountDue: response[i].amountDue
+            });
         }
         //console.log('no error in for loop');
         //worksheet.addRow({id: 1, name: 'John Doe', DOB: new Date(1970,1,1)});
@@ -37,14 +42,14 @@ var Excel = require('exceljs');
         worksheet.getRow(1).font = { name: 'Comic Sans MS', family: 4, size: 12, underline: 'double', bold: true };
         //workbook.commit();     
         //let data_file = new Date().getTime();   
-        workbook.xlsx.writeFile('G:\\digitalGas\\downloads\\temp.xlsx').then(function() {
+        workbook.xlsx.writeFile('G:\\digitalGas\\downloads\\temp.xlsx').then(function () {
             // done
             console.log('file is written');
             Resolve();
-        })      
-    }, function(error) {
+        })
+    }, function (error) {
         console.log('file not created');
         Reject();
     })
 }
-        module.exports = generateExcel;
+module.exports = generateExcel;
