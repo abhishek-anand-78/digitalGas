@@ -66,12 +66,14 @@ app.post('/search', json, function (req, res) {
 });
 
 // handle download excel file
-app.post('/downloadexcel', json, function (req, res) {    
-    MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( async function (response) {
-        await generateExcel.generateExcel();        
-        res.sendFile('G:\\digitalGas\\downloads\\export.xlsx');
-        console.log('Details found .....');
-        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+app.post('/downloadexcel', json, function (req, res) {            
+    MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( function (response) {
+         generateExcel(response).then(function (){
+            res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+            console.log('Details found .....');
+         }, function(error){
+             console.log('error while sending response');
+         });        
     }, function (msg) {
         console.log("DB error occurred...", msg);
         res.status(500).send({ "success": 'N', msg: msg });

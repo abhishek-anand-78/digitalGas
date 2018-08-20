@@ -58,10 +58,10 @@ function PDFInvoice(_ref) {
       doc.fillColor('#333333');
     },
     genCustomerInfos: function genCustomerInfos() {
-      doc.fontSize(12).text(translate.chargeFor, CONTENT_LEFT_PADDING, 400);
+      doc.fontSize(12).text(translate.chargeFor, CONTENT_LEFT_PADDING, 100);
 
       doc.text( customer.name );
-      // doc.text( customer.email );
+      doc.text( customer.email );
       doc.text( customer.address );
     },
     genTableHeaders: function genTableHeaders() {
@@ -85,7 +85,7 @@ function PDFInvoice(_ref) {
       doc.moveTo(table.x, table.y + offset).lineTo(divMaxWidth, table.y + offset).stroke();
     },
     generate: function generate() {
-      this.genHeader();
+      this.genHeader();      
       this.genTableHeaders();
       this.genTableLines();
       this.genTableRow();
