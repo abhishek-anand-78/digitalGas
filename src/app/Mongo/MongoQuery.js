@@ -1,14 +1,12 @@
-var ConnectionFactory = require('./ConnectionFactory.js')
+var ConnectionFactory = require('./ConnectionFactory.js');
 var MongoQuery = function () {
 	return {
 		getAllUserData: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
-				console.log("HI");
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
 					userCollection.find().toArray(function (err, data) {
-						console.log("Hello");
 						if (err) {
 							reject(err);
 						}
