@@ -62,6 +62,7 @@ function PDFInvoice(_ref) {
 
       doc.text( customer.name );
       doc.text( customer.email );
+      doc.text( 'customer.email' );
       doc.text( customer.address );
     },
     genTableHeaders: function genTableHeaders() {

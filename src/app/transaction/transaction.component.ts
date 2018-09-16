@@ -12,12 +12,15 @@ export class TransactionComponent implements OnInit {
   transactionForm: FormGroup;
   submitted = false;
   transData = {};
-  loading = false;
+  search_loading = false;
+  download_loading = false;
+  show_table = false;
   transactionDetails = {};
   constructor(private formBuilder: FormBuilder, public http: HttpClient) { }
 
   ngOnInit() {
-    this.loading = false;
+    this.search_loading = false;
+    this.download_loading = false;
     this.transactionForm = this.formBuilder.group({
       months: ['', Validators.required],
       year: ['', Validators.required]
@@ -40,32 +43,48 @@ export class TransactionComponent implements OnInit {
   }
 
   search(): void {
-    this.loading = true;
+    this.search_loading = true;    
     this.initialize();
     let url = "http://localhost:8081/search";
     var me = this;
     this.http.post(url, this.transData)
       .subscribe(res => {
         console.log(res);
+        this.search_loading = false;
+        this.show_table = true;
         this.transactionDetails = res;
       }, err => {
         console.log("error occurred", err);
+        this.search_loading = false;
       });
     // me.transactionDetails = res;
   }
 
+  update_customer(data){
+    let url = "http://localhost:8081/update";
+    console.log(data);
+    
+    // this.http.post(url, data)
+    //   .subscribe(res => {
+    //     console.log(res);
+    //   }, err =>{
+    //     console.log(err);
+    //   });
+  }
+
   download_excel() {
+    this.download_loading = true;
     let a = document.createElement("a");
     document.body.appendChild(a);
     let binaryData = [];
     let url = "http://localhost:8081/downloadexcel";
-    
-    
+        
     this.http.post(url, this.transData, {
       responseType: 'arraybuffer'      
     })
       .subscribe(res => {
         console.log(res);
+        this.download_loading = false;
         binaryData.push(res);
         let file = new Blob(binaryData, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
         let fileURL = window.URL.createObjectURL(file);
@@ -74,8 +93,6 @@ export class TransactionComponent implements OnInit {
         a.click();
       }, err => {
         console.log("error occurred", err);
-      });
-    
-    
+      });        
   }
 }

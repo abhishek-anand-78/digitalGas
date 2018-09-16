@@ -2,7 +2,7 @@
 <div class="">
   <form [formGroup]="transactionForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+      <div class="col-md-3 col-lg-3 col-sm-3 form-group">
         <label for="months">Month</label>
         <select formControlName="months" class="form-control">
               <option>Select</option>
@@ -20,7 +20,7 @@
               <option>Dec</option>
             </select>
       </div>
-      <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+      <div class="col-md-3 col-lg-3 col-sm-3 form-group">
         <label for="year">Year</label>
         <select formControlName="year" class="form-control">
               <option default>Select</option>
@@ -36,78 +36,91 @@
     </div>
 
     <div class="form-group">
-      <button [disabled]="loading" class="btn btn-primary" (click)='search()'>Search</button>
+      <button [disabled]="search_loading" class="btn btn-primary" (click)='search()'>Search</button>
       <!--<button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>-->
     </div>
   </form>
 </div>
 
-<div *ngIf = 'loading' class="table-responsive">
+<div class="row">
+    <div class="col-md-3 col-lg-3 col-sm-3">
+      <h4> Select Duration</h4>
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+      <select class="form-control">
+            <option default>Select Month</option>
+            <option>whole year</option>
+            <option>Jan</option>
+            <option>Feb</option>
+            <option>Mar</option>
+            <option>Apr</option>
+            <option>May</option>
+            <option>Jun</option>
+            <option>Jul</option>
+            <option>Aug</option>
+            <option>Sep</option>
+            <option>Oct</option>
+            <option>Nov</option>
+            <option>Dec</option>
+          </select>
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+      <select class="form-control">
+            <option default>Select Year</option>
+            <option>2018</option>
+            <option>2019</option>
+            <option>2020</option>
+            <option>2021</option>
+            <option>2022</option>
+            <option>2023</option>
+            <option>2024</option>
+          </select>
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-3  form-group">
+        <button [disabled]="search_loading" class="btn btn-primary">Search</button>            
+    </div>
+  </div>
+
+
+<div *ngIf = 'show_table' class="table-responsive">
   <table class="table table-hover">
     <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Customer Name</th>
-        <th scope="col">Customer Address</th>
-        <th scope="col">Bill Number</th>
-        <th scope="col">Party GSTIN</th>
-        <th scope="col">Date</th>
-        <th scope="col">Description</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Rate</th>
-        <th scope="col">Total Amount</th>
-        <th scope="col">CGST %</th>
-        <th scope="col">SGST %</th>
-        <th scope="col">Net Amount Payable</th>
+      <tr style="border: 1px solid black;text-align:center;">
+        <!-- <th scope="col">#</th> -->
+        <th scope="col-md-1">Customer Name</th>
+        <th scope="col-md-1">Customer Address</th>
+        <th scope="col-md-1">Bill Number</th>
+        <th scope="col-md-1">Party GSTIN</th>
+        <th scope="col-md-1">Date</th>
+        <th scope="col-md-1">Description</th>
+        <th scope="col-md-1">Quantity</th>
+        <th scope="col-md-1">Rate</th>
+        <th scope="col-md-1">Total Amount</th>
+        <th scope="col-md-1">CGST %</th>
+        <th scope="col-md-1">SGST %</th>
+        <th scope="col-md-1">Net Amount Payable</th>
       </tr>
     </thead>
     <tbody>
-      <!--*ngFor = "let item in transactionDetails"-->
-      <tr >
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry the Bird</td>
-        <td>@twitter</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
+      
     </tbody>
   </table>
 </div>
-<button [disabled]="loading" class="btn btn-primary" (click)='download_excel()'>download_excel</button>
+<!--  -->
+<div class="container-fluid">
+<div class="row c" *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="border:1px solid black;border-radius:4px;text-align:center;">
+    <div class="col-md-1">{{item.customerName}}</div>
+    <div class="col-md-1">{{item.address}}</div>
+    <div class="col-md-1">{{item.billNumber}}</div>
+    <div class="col-md-1">{{item.partyGstNumber}}</div>
+    <div class="col-md-1">{{item.date}}</div>
+    <div class="col-md-1">{{item.description}}</div>
+    <div class="col-md-1">{{item.quantity}}</div>
+    <div class="col-md-1">{{item.rate}}</div>
+    <div class="col-md-1">{{item.totalAmount}}</div>
+    <div class="col-md-1">{{item.cgst}}</div>
+    <div class="col-md-1">{{item.sgst}}</div>
+    <div class="col-md-1">{{item.netAmountPayable}}</div>
+  </div>
+  </div>
+<button [disabled]="download_loading" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>

@@ -4,3 +4,12 @@ a:hover {
 a:visited{
     background-color:cyan;
 }
+
+.navbar{
+    /*   background-color: #fa405c; */
+    /*   background-color: #ef5e7a; */
+      background-color: #f6653c;;
+      color: white;
+      font-family: 'Roboto Condensed', sans-serif;
+  font-size: 18px;  
+    }

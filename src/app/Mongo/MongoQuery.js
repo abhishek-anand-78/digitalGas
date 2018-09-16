@@ -16,7 +16,52 @@ var MongoQuery = function () {
 				});
 			});
 		},
-
+		getBillData: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.aggregate([
+						{$addFields: { "month": {$month: '$date'}, 'year': {$year: '$date'}}},
+						{$match: { month: 9, year: 2018, flag: 'misc' }}
+					]).toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data);
+						reslove(data);
+					});
+				});
+			});
+		},
+		getProfit: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.aggregate([
+						{$addFields: { "month": {$month: ISODate("2018-09-20T00:00:00Z")}, 'year': {$year: ISODate("2018-09-20T00:00:00Z")}}},
+						{$match: { month: 9, year: 2018}},
+						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"},"count": {"$sum": 1}}}
+					  ])
+					// userCollection.aggregate({
+					// 	"$group" : {
+					// 		"_id": "$flag",
+					// 		"totalPrice": {
+					// 			"$sum": "netAmountPayble"
+					// 		}
+					// 	}
+					// }).toArray(function (err, data) {
+						.toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data)
+						reslove(data);
+					});
+				});
+			});
+		},
 		inserUserRecord: function (db_name, data, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
@@ -32,7 +77,7 @@ var MongoQuery = function () {
 				});
 			});
 		},
-
+	
 
 		getTableData: function (db_name, tableName, returnFullArray) {
 			return new Promise(function (reslove, reject) {

@@ -41,7 +41,8 @@ var generateExcel = function (response) {
         }
 
         //change file location according to system 
-        workbook.xlsx.writeFile('C:\\Users\\sinha_ab\\Desktop\\dg\\server\\create_excel\\temp.xlsx').then(function () {
+        // workbook.xlsx.writeFile('C:\\Users\\sinha_ab\\Desktop\\dg\\server\\create_excel\\temp.xlsx').then(function () {
+            workbook.xlsx.writeFile('G:\\digitalGas\\downloads\\temp.xlsx').then(function () {
             // done
             console.log('file is written');
             Resolve();

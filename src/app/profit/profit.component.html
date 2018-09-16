@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-lg-3 col-sm-3">
+          <h4> Select Duration</h4>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+          <select class="form-control">
+                <option default>Select Month</option>
+                <option>whole year</option>
+                <option>Jan</option>
+                <option>Feb</option>
+                <option>Mar</option>
+                <option>Apr</option>
+                <option>May</option>
+                <option>Jun</option>
+                <option>Jul</option>
+                <option>Aug</option>
+                <option>Sep</option>
+                <option>Oct</option>
+                <option>Nov</option>
+                <option>Dec</option>
+              </select>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+          <select class="form-control">
+                <option default>Select Year</option>
+                <option>2018</option>
+                <option>2019</option>
+                <option>2020</option>
+                <option>2021</option>
+                <option>2022</option>
+                <option>2023</option>
+                <option>2024</option>
+              </select>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-3  form-group">
+            <button [disabled]="search_loading" class="btn btn-primary">Search</button>            
+        </div>
+      </div>
+</div>
+
+<table class="table table-hover table-bordered text-center">
+  <thead  class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Dealer</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Miscellaneous</th>
+      <th scope="col"  class="table-danger">Amount Pending</th>
+      <th scope="col">Profit</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of [1,23,4,5,6,6]; index as i ">
+      <th scope="row">{{i + 1}}</th>
+      <td>{{item}}</td>
+      <td>{{item}}</td>
+      <td>{{item}}</td>
+      <td>{{item}}</td>
+      <td  class="table-danger">{{item}}</td>
+      <td  class="table-success">{{item}}</td>
+    </tr>    
+  </tbody>
+</table>
+
+<button [disabled]="search_loading" class="btn btn-primary float-right">Download</button>

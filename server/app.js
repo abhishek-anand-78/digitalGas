@@ -111,11 +111,67 @@ wordcreator = function (data) {
     })
 }
 
+app.post('/update', json, function(req, res){
+    MongoQuery.updateUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
+        console.log('Details updated successfully...');
+        // res.status(200).send({ "success": 'Y', "data": response });               
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+})
+
+app.post('/fetchbill', json, function (req, res) {  
+    console.log("req body >>>>>>>", req.body);
+    MongoQuery.getBillData(DB_NAME, req.body, 'CustomerData').then(function (response) {
+        console.log('Details found .....');
+        res.status(200).send({ "success": 'Y', "data": response });
+        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
+
+app.post('/getprofit', json, function (req, res) {  
+    console.log("req body >>>>>>>", req.body);
+    MongoQuery.getProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
+        console.log('Details found .....');
+        res.status(200).send({ "success": 'Y', "data": response });
+        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
 
 app.delete('/del_user', function (req, res) {
     console.log("Got a DELETE request for /del_user");
     res.send('Hello DELETE');
-})
+});
+
+app.post('/dealer', json, function (req, res) {    
+    console.log("req body >>>>>>>", req.body);
+    
+    MongoQuery.inserUserRecord(DB_NAME, req.body, 'DealerData').then(function (response) {
+        console.log('Details inserted successfully...');
+        res.status(200).send({ "success": 'Y', "data": response });               
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
+
+app.get('/dealerList', json, function (req, res) {    
+    console.log("req body >>>>>>>", req.body);
+    MongoQuery.getAllUserData(DB_NAME, req.body, 'DealerData').then(function (response) {    
+        console.log('Details found successfully...');
+        res.status(200).send({ "success": 'Y', "data": response });               
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
 
 var server = app.listen(8081, function () {
     var host = server.address().address

@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -16,6 +18,9 @@ import { BillComponent } from './bill/bill.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { AboutComponent } from './about/about.component';
 import { HttpModule } from '@angular/http';
+import { ProfitComponent } from './profit/profit.component';
+import { StockComponent } from './stock/stock.component';
+import { NgbdModalBasic } from './new-dealer-modal/dealer.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +30,19 @@ import { HttpModule } from '@angular/http';
     RegistrationComponent,
     BillComponent,
     TransactionComponent,
-    AboutComponent
+    AboutComponent,
+    ProfitComponent,
+    StockComponent,
+    NgbdModalBasic
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     routing,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [AlertService
     // AuthenticationService, fakeBackendProvider,

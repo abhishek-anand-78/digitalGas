@@ -1,0 +1,149 @@
+<div class="col-md-8 offset-md-1">
+    <form [formGroup]="billForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">       
+          <legend>Stock Bill:</legend>       
+      <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+            <label for="date">Date</label>
+            <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
+            <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                <div *ngIf="f.date.errors.required">Please select date</div>
+            </div>
+        </div>                          
+        
+        <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+            <label for="billNumber">Cylinder Type</label>
+            <!-- <input type="text" formControlName="billNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billNumber.errors }"
+            /> -->
+            <select id="category" class="form-control" formControlName="billNumber">
+                <option value="" >select a category</option>
+                <option *ngFor="let item of ['Domestic', 'Commercial']" value={{item}}>{{item}}</option>
+              </select>
+            <div *ngIf="submitted && f.billNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.billNumber.errors.required">Bill Number is required</div>
+            </div>
+        </div>  
+        
+        <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+            <label for="description">Cylinder Size</label>
+            <select class="form-control" formControlName="description">
+                <option value="">Select Size</option>
+                <option value='12'>12</option>
+                <option value='15'>15</option>
+                <option value='17'>17</option>
+                <option value='21'>21</option>                        
+            </select>
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Bill Number is required</div>
+            </div>
+        </div>
+        </div>        
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="quantity">Quantity</label>
+                <input type="text" formControlName="quantity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"
+                />
+                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                    <div *ngIf="f.quantity.errors.required">Quantity is required</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="rate">Rate </label>
+                <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }" />
+                <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+                    <div *ngIf="f.rate.errors.required">Rate is required</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="totalAmount">Total Amount</label>
+                <input type="text" formControlName="totalAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
+                />
+            </div>
+        </div>
+        <br>
+        <div class="form-group">            
+            <button [disabled]="loading" class="btn btn-primary saveButton" (click)="saveStockBill()">Save Bill</button>
+        </div>        
+    </form>
+    <br>
+    <hr>
+    <br>
+    <form [formGroup]="miscForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">        
+        <legend>Miscellaneous Bill:</legend> 
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="date">Date</label>
+                <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
+                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                    <div *ngIf="f.date.errors.required">Please select date</div>
+                </div>
+            </div>                          
+            
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                />
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
+            </div>  
+            
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="netAmountPayable">Amount</label>
+                <input type="Number" formControlName="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }" />                
+                <div *ngIf="submitted && f.netAmountPayable.errors" class="invalid-feedback">
+                    <div *ngIf="f.netAmountPayable.errors?.required">Amount is required</div>    
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">            
+            <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
+        </div>
+    </form> 
+</div>
+<br>
+<hr>
+<br>
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-sm-2 offset-md-1">
+              <h4> Select Duration</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+              <select class="form-control">
+                    <option default>Select Month</option>
+                    <option>whole year</option>
+                    <option>Jan</option>
+                    <option>Feb</option>
+                    <option>Mar</option>
+                    <option>Apr</option>
+                    <option>May</option>
+                    <option>Jun</option>
+                    <option>Jul</option>
+                    <option>Aug</option>
+                    <option>Sep</option>
+                    <option>Oct</option>
+                    <option>Nov</option>
+                    <option>Dec</option>
+                  </select>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+              <select class="form-control">
+                    <option default>Select Year</option>
+                    <option>2018</option>
+                    <option>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                    <option>2024</option>
+                  </select>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3  form-group">
+                <button [disabled]="search_loading" class="btn btn-primary">Download</button>            
+            </div>
+          </div>
+    </div>    
+    <br>
+    <br>
+    <br>

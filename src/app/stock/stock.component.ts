@@ -1,31 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Http } from '@angular/http';
-import {saveAs} from 'file-saver';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-bill',
-  templateUrl: './bill.component.html',
-  styleUrls: ['./bill.component.css']
+  selector: 'app-stock',
+  templateUrl: './stock.component.html',
+  styleUrls: ['./stock.component.css']
 })
-export class BillComponent implements OnInit {
+export class StockComponent implements OnInit {
   billForm: FormGroup;
+  miscForm: FormGroup;
   category : string;
-  closeResult: string;
   submitted = false;
-  test = 'asgdhjs';
-  customer : boolean = true;  
   billData = {};
-  dealersList = [];
 
-  constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
+  constructor(private formBuilder: FormBuilder, public http: HttpClient) { }
 
   ngOnInit() {
-    this.dealersList = ['Pann', 'Mann'];
-
     this.billForm = this.formBuilder.group({
       customerName: ['', Validators.required],
       address: ['', Validators.required],
@@ -41,6 +32,11 @@ export class BillComponent implements OnInit {
       netAmountPayable: ['0'],
       amountPaid: ['0'],
       amountDue: ['0']
+    });
+    this.miscForm = this.formBuilder.group({      
+      date: ['', Validators.required],
+      description: ['', Validators.required],      
+      netAmountPayable: ['0']
     });
     this.onChanges();
   }
@@ -108,41 +104,14 @@ export class BillComponent implements OnInit {
     return this.billData;
   }
 
+  saveStockBill(){
+    this.loadData();
+    console.log(this.billData)
+  }
+
   onSubmit() {
     //this.billForm.controls.netAmountPayable.value
     console.log(this.billForm.controls);
-  }
-
-  toggleBill(){
-    this.customer = !this.customer;  
-    this.ngOnInit();
-  }
-  addNewDealer(result){
-    this.http.post('http://localhost:8081/adddealer',{}).subscribe(data => {
-
-    }, err => {
-      console.log();
-      this.dealersList = ['Pann', 'Mann','wolring'];
-    })
-  }
-
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.addNewDealer(result);
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
   }
 
   generateBill() {

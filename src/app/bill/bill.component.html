@@ -1,5 +1,12 @@
-<h2>Billing</h2>
-<div class="">
+<div class="container">
+    <div>
+        <button [disabled]="customer"  style="margin-left: 63%;" class="btn btn-primary col-md-2" (click)='toggleBill()'>Customer</button>
+        <button [disabled]="!customer" class="btn btn-primary col-md-2" style="margin-left:20px;" (click)='toggleBill()'>Dealer</button>
+    </div>
+</div>
+<div *ngIf="customer == true" class="container">
+<h2>Customer Billing</h2>
+<div class="col-md-8">
     <form [formGroup]="billForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="customerName">Customer Name</label>
@@ -44,14 +51,25 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
-            />
-            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                <div *ngIf="f.description.errors.required">Description is required</div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                />
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
             </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
+                <label for="cylinderSize">Cylinder Size</label>       
+                <select class="form-control">
+                    <option default>Select Size</option>
+                    <option value='12'>12</option>
+                    <option value='15'>15</option>
+                    <option value='17'>17</option>
+                    <option value='21'>21</option>                        
+                </select>
+            </div>            
         </div>
 
         <div class="row">
@@ -72,7 +90,7 @@
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                 <label for="totalAmount">Total Amount</label>
-                <input type="text" formControlName="totalAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
+                <input type="text" formControlName="totalAmount" disabled class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
                 />
             </div>
         </div>
@@ -92,7 +110,7 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="netAmountPayable">Net Amount Payable</label>
-                <input type="text" formControlName="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
+                <input type="text" disabled formControlName="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
                 />
             </div>
         </div>
@@ -106,7 +124,7 @@
 
             <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="amountDue">Amount Due</label>
-                <input type="text" formControlName="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
+                <input type="text" disabled formControlName="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
                 />
             </div>
         </div>
@@ -118,3 +136,171 @@
         </div>
     </form>
 </div>
+</div>
+
+<div *ngIf="customer == false" class="container-fluid">
+    <h2>Dealer Billing</h2>
+    <br>
+    <div class="row">
+    <div class="col-md-8">
+        <form [formGroup]="billForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">            
+            <div class="row"> 
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
+                    <label for="dealerName">Select Dealer</label>                           
+                    <select class="form-control">
+                        <option default>Select Dealer</option>
+                        <option *ngFor="let dealer of dealersList" value={{dealer}}>{{dealer}}</option>
+                    </select>
+                </div>               
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="date">Date</label>
+                    <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
+                    <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                        <div *ngIf="f.date.errors.required">Please select date</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
+                    <label for="cylinderSize">Cylinder Size</label>       
+                    <select class="form-control">
+                        <option default>Select Size</option>
+                        <option value='12'>12</option>
+                        <option value='15'>15</option>
+                        <option value='17'>17</option>
+                        <option value='21'>21</option>                        
+                    </select>
+                  </div>                
+            </div>
+    
+            
+    
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" formControlName="quantity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"
+                    />
+                    <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                        <div *ngIf="f.quantity.errors.required">Quantity is required</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="rate">Rate </label>
+                    <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }" />
+                    <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+                        <div *ngIf="f.rate.errors.required">Rate is required</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="totalAmount">Total Amount</label>
+                    <input type="text" formControlName="totalAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
+                    />
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="amountPaid">Amount Paid</label>
+                    <input type="text" formControlName="amountPaid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
+                    />
+                </div>
+    
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="amountDue">Amount Due</label>
+                    <input type="text" formControlName="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
+                    />
+                </div>
+            </div>        
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary" (click)='generateBill()'>Generate Bill</button>
+                <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3 offset-md-1" style="margin-top:30px;">
+        <!-- <button [disabled]="!customer" class="btn btn-success col-md-8" style="margin-left:20px;" (click)='addNewDealer()'>Add New Dealer</button> -->
+        <!-- <ngbd-modal-basic></ngbd-modal-basic>         -->
+        <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add New Dealer</button>
+    </div>
+    </div>
+
+    <hr>
+<br>
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-lg-2 col-sm-2 offset-md-1">
+              <h4> Select Duration</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+              <select class="form-control">
+                    <option default>Select Month</option>
+                    <option>whole year</option>
+                    <option>Jan</option>
+                    <option>Feb</option>
+                    <option>Mar</option>
+                    <option>Apr</option>
+                    <option>May</option>
+                    <option>Jun</option>
+                    <option>Jul</option>
+                    <option>Aug</option>
+                    <option>Sep</option>
+                    <option>Oct</option>
+                    <option>Nov</option>
+                    <option>Dec</option>
+                  </select>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
+              <select class="form-control">
+                    <option default>Select Year</option>
+                    <option>2018</option>
+                    <option>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                    <option>2024</option>
+                  </select>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3  form-group">
+                <button [disabled]="search_loading" class="btn btn-primary">Download</button>            
+            </div>
+          </div>
+    </div>    
+    <br>
+    <br>
+    <br>
+
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Dealer</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+        <div class="form-group">
+            <!-- <label for="dateOfBirth">Date of birth</label>
+            <div class="input-group">
+            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+            </div>
+            </div> -->
+            <label for="dealerName">Name</label>
+            <input type="text" class="form-control" placeholder="Enter name" name="dealerName" />
+            <label for="dealerAddress">Address</label>
+            <input type="text" class="form-control" placeholder="Enter address" name="dealerAddress" />
+            <label for="dealerPhone">Phone</label>
+            <input type="number" class="form-control" placeholder="Enter mobile no" name="dealerPhone" />
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+      
+      <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
+      

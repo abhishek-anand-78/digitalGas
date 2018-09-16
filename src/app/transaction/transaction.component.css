@@ -1,3 +1,15 @@
 .saveButton{
     margin-left : 20px;
 }
+
+.c{
+    margin-top:2px;
+    margin-bottom: 3px;
+}
+.c:nth-child(odd) {
+    background: #f1f1f1;    
+}
+
+.c:nth-child(even) {
+    background:#e9ecef;
+}
