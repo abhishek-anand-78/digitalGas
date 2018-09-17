@@ -22,8 +22,11 @@ var MongoQuery = function () {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
 					userCollection.aggregate([
-						{$addFields: { "month": {$month: '$date'}, 'year': {$year: '$date'}}},
-						{$match: { month: 9, year: 2018, flag: 'misc' }}
+						// {$addFields: { "month": {$month: new Date('2018-09-20')}, 'year': {$year: new Date('2018-09-20')}}},
+						// {$addFields: { "month": {$month: new Date("$date")}, 'year': {$year: new Date("$date")}}},
+						{$addFields: { "month":{$substr: ["$date", 5, 2] }, "year":{$substr: ["$date", 0, 4]}}},
+						{$match: { month: query.month, year: query.year, flag: query.flag }}
+						// {$match: { month: 9, year: 2018, customerName: 'shgda' }}
 					]).toArray(function (err, data) {
 						if (err) {
 							reject(err);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import {saveAs} from 'file-saver';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -20,6 +20,11 @@ export class BillComponent implements OnInit {
   customer : boolean = true;  
   billData = {};
   dealersList = [];
+  model = {
+    email: '',
+    address: '',
+    phone: ''
+    };
 
   constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
 
@@ -29,18 +34,21 @@ export class BillComponent implements OnInit {
     this.billForm = this.formBuilder.group({
       customerName: ['', Validators.required],
       address: ['', Validators.required],
+      dealer: '',
       billNumber: ['', Validators.required],
       partyGstNumber: ['', Validators.required],
       date: ['', Validators.required],
+      cylinderSize: ['', Validators.required ],
       description: ['', Validators.required],
       quantity: ['1', Validators.required],
       rate: ['0', Validators.required],
-      totalAmount: ['0', Validators.required],
+      totalAmount: ['0' , Validators.required],      
       cgst: ['0', Validators.required],
       sgst: ['0', Validators.required],
       netAmountPayable: ['0'],
       amountPaid: ['0'],
-      amountDue: ['0']
+      amountDue: ['0'],
+      flag: ""
     });
     this.onChanges();
   }
@@ -94,7 +102,8 @@ export class BillComponent implements OnInit {
       address: this.billForm.controls.address.value,
       billNumber: this.billForm.controls.billNumber.value,
       partyGstNumber: this.billForm.controls.partyGstNumber.value,
-      date: this.billForm.controls.date.value,
+      date: new Date(this.billForm.controls.date.value).toISOString(),
+      cylinderSize: this.billForm.controls.cylinderSize.value,
       description: this.billForm.controls.description.value,
       quantity: this.billForm.controls.quantity.value,
       rate: this.billForm.controls.rate.value,
@@ -103,7 +112,9 @@ export class BillComponent implements OnInit {
       sgst: this.billForm.controls.sgst.value,
       netAmountPayable: this.billForm.controls.netAmountPayable.value,
       amountPaid: this.billForm.controls.amountPaid.value,
-      amountDue: this.billForm.controls.amountDue.value
+      amountDue: this.billForm.controls.amountDue.value,
+      dealer: this.billForm.controls.dealer.value,
+      flag: this.billForm.controls.flag.value ? this.billForm.controls.flag.value : 'customer'
     }
     return this.billData;
   }
@@ -111,12 +122,27 @@ export class BillComponent implements OnInit {
   onSubmit() {
     //this.billForm.controls.netAmountPayable.value
     console.log(this.billForm.controls);
+    // action="/myaction" method="post" (ngSubmit)="onSubmit()"
   }
 
-  toggleBill(){
-    this.customer = !this.customer;  
+  toggleBill(flag){
+    this.customer = !this.customer;
     this.ngOnInit();
+    this.billForm.controls['flag'].setValue(flag);
+    // console.log(this.loadData());
+  };
+
+  saveBill(){
+    let url = "http://localhost:8081/savebill";
+    this.loadData();
+    this.http.post(url, this.billData).subscribe(data => {
+      console.log(data);
+    }, err => {
+      console.log();
+      this.dealersList = ['Pann', 'Mann','wolring'];
+    })
   }
+
   addNewDealer(result){
     this.http.post('http://localhost:8081/adddealer',{}).subscribe(data => {
 

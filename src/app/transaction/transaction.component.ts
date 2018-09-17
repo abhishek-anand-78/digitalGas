@@ -12,6 +12,7 @@ export class TransactionComponent implements OnInit {
   transactionForm: FormGroup;
   submitted = false;
   transData = {};
+  tempData = {};
   search_loading = false;
   download_loading = false;
   show_table = false;
@@ -23,7 +24,8 @@ export class TransactionComponent implements OnInit {
     this.download_loading = false;
     this.transactionForm = this.formBuilder.group({
       months: ['', Validators.required],
-      year: ['', Validators.required]
+      year: ['', Validators.required],
+      flag: ['', Validators.required]
     });
   }
 
@@ -37,15 +39,16 @@ export class TransactionComponent implements OnInit {
   initialize() {
     this.transData = {
       month: this.transactionForm.controls.months.value,
-      year: this.transactionForm.controls.year.value
+      year: this.transactionForm.controls.year.value,
+      flag: this.transactionForm.controls.flag.value
     }
     return this.transData;
   }
 
   search(): void {
     this.search_loading = true;    
-    this.initialize();
-    let url = "http://localhost:8081/search";
+    this.tempData = this.initialize();
+    let url = "http://localhost:8081/fetchbill";
     var me = this;
     this.http.post(url, this.transData)
       .subscribe(res => {
@@ -74,12 +77,13 @@ export class TransactionComponent implements OnInit {
 
   download_excel() {
     this.download_loading = true;
+    
     let a = document.createElement("a");
     document.body.appendChild(a);
     let binaryData = [];
     let url = "http://localhost:8081/downloadexcel";
         
-    this.http.post(url, this.transData, {
+    this.http.post(url, this.tempData, {
       responseType: 'arraybuffer'      
     })
       .subscribe(res => {

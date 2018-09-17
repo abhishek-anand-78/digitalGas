@@ -1,5 +1,5 @@
 <!--<h4>Transactions</h4>-->
-<div class="">
+<!-- <div class="">
   <form [formGroup]="transactionForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col-md-3 col-lg-3 col-sm-3 form-group">
@@ -36,51 +36,60 @@
     </div>
 
     <div class="form-group">
-      <button [disabled]="search_loading" class="btn btn-primary" (click)='search()'>Search</button>
-      <!--<button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>-->
+      <button [disabled]="search_loading" class="btn btn-primary" (click)='search()'>Search</button>      
     </div>
   </form>
-</div>
+</div> -->
 
-<div class="row">
-    <div class="col-md-3 col-lg-3 col-sm-3">
+<form [formGroup]="transactionForm" > 
+  <div class="row">
+    <div class="col-md-2 col-lg-2 col-sm-2">
       <h4> Select Duration</h4>
     </div>
-    <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
-      <select class="form-control">
-            <option default>Select Month</option>
-            <option>whole year</option>
-            <option>Jan</option>
-            <option>Feb</option>
-            <option>Mar</option>
-            <option>Apr</option>
-            <option>May</option>
-            <option>Jun</option>
-            <option>Jul</option>
-            <option>Aug</option>
-            <option>Sep</option>
-            <option>Oct</option>
-            <option>Nov</option>
-            <option>Dec</option>
+    <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
+      <select formControlName="flag" class="form-control">
+            <option value="" default>Select Bill</option>
+            <option  value="customer">Customer</option>
+            <option  value="dealer">Dealer</option>
+            <option  value="stock">Stock</option>
+            <option  value="miscellaneous">Miscellaneous</option>            
           </select>
     </div>
-    <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
-      <select class="form-control">
-            <option default>Select Year</option>
-            <option>2018</option>
-            <option>2019</option>
-            <option>2020</option>
-            <option>2021</option>
-            <option>2022</option>
-            <option>2023</option>
-            <option>2024</option>
+    <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
+      <select formControlName="months" class="form-control">
+            <option value ="" default>Select Month</option>
+            <option value="whole" default>whole year</option>
+            <option value="01">Jan</option>
+            <option value="02">Feb</option>
+            <option value="03">Mar</option>
+            <option value="04">Apr</option>
+            <option value="05">May</option>
+            <option value="06">Jun</option>
+            <option value="07">Jul</option>
+            <option value="08">Aug</option>
+            <option value="09">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>            
           </select>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
+      <select formControlName="year" class="form-control">
+        <option value="" default>Select Year</option>
+        <option  value="2018" >2018</option>
+        <option  value="2019">2019</option>
+        <option  value="2020">2020</option>
+        <option  value="2021">2021</option>
+        <option  value="2022">2022</option>
+        <option  value="2023">2023</option>
+        <option  value="2024">2024</option>
+      </select>
     </div>
     <div class="col-md-3 col-lg-3 col-sm-3  form-group">
-        <button [disabled]="search_loading" class="btn btn-primary">Search</button>            
+        <button [disabled]="!transactionForm.valid" class="btn btn-primary" (click)="search()">Search</button>            
     </div>
   </div>
-
+</form>
 
 <div *ngIf = 'show_table' class="table-responsive">
   <table class="table table-hover">
@@ -123,4 +132,5 @@
     <div class="col-md-1">{{item.netAmountPayable}}</div>
   </div>
   </div>
-<button [disabled]="download_loading" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>
+
+<button [disabled]="download_loading" *ngIf="show_table" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>

@@ -52,6 +52,19 @@ app.post('/myaction', json, function (req, res) {
     })
 });
 
+app.post('/savebill', json, function (req, res) {    
+    console.log("req body >>>>>>>", req.body);
+            
+    MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
+        // console.log('Details inserted successfully...');
+        res.status(200).send({ "success": 'Y', "data": response });               
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
+
+
 app.post('/search', json, function (req, res) {
     console.log("Got a POST request for the search transaction page");
     console.log("req body >>>>>>>", req.body);
@@ -67,7 +80,8 @@ app.post('/search', json, function (req, res) {
 
 // handle download excel file
 app.post('/downloadexcel', json, function (req, res) {            
-    MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( function (response) {
+    // MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( function (response) {
+    MongoQuery.getBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
          generateExcel(response).then(function (){
             res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
             console.log('Details found .....');
