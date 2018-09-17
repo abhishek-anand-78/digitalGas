@@ -81,17 +81,31 @@ app.post('/search', json, function (req, res) {
 // handle download excel file
 app.post('/downloadexcel', json, function (req, res) {            
     // MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( function (response) {
-    MongoQuery.getBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
-         generateExcel(response).then(function (){
-            res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
-            console.log('Details found .....');
-         }, function(error){
-             console.log('error while sending response');
-         });        
-    }, function (msg) {
-        console.log("DB error occurred...", msg);
-        res.status(500).send({ "success": 'N', msg: msg });
-    })
+    if(req.body.month="whole"){
+        MongoQuery.getYearlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
+            generateExcel(response).then(function (){
+                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                console.log('Details found .....');
+            }, function(error){
+                console.log('error while sending response');
+            });        
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }else{
+        MongoQuery.getMontlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
+            generateExcel(response).then(function (){
+                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                console.log('Details found .....');
+            }, function(error){
+                console.log('error while sending response');
+            });        
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }
 });
 
 
@@ -137,26 +151,47 @@ app.post('/update', json, function(req, res){
 
 app.post('/fetchbill', json, function (req, res) {  
     console.log("req body >>>>>>>", req.body);
-    MongoQuery.getBillData(DB_NAME, req.body, 'CustomerData').then(function (response) {
-        console.log('Details found .....');
-        res.status(200).send({ "success": 'Y', "data": response });
-        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
-    }, function (msg) {
-        console.log("DB error occurred...", msg);
-        res.status(500).send({ "success": 'N', msg: msg });
-    })
+    if(req.body.month="whole"){
+        MongoQuery.getYearlyBillData(DB_NAME, req.body, 'CustomerData').then(function (response) {
+            console.log('Details found .....');
+            res.status(200).send({ "success": 'Y', "data": response });
+            // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }else{
+        MongoQuery.getMonthlyBillData(DB_NAME, req.body, 'CustomerData').then(function (response) {
+            console.log('Details found .....');
+            res.status(200).send({ "success": 'Y', "data": response });
+            // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }
+    
 });
 
 app.post('/getprofit', json, function (req, res) {  
     console.log("req body >>>>>>>", req.body);
-    MongoQuery.getProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
-        console.log('Details found .....');
-        res.status(200).send({ "success": 'Y', "data": response });
-        // res.status(200).sendFile("C:\\Users\\Vivek\\Desktop\\new\\out.doc");        
-    }, function (msg) {
-        console.log("DB error occurred...", msg);
-        res.status(500).send({ "success": 'N', msg: msg });
-    })
+    if(req.body.month="whole"){
+        MongoQuery.getYearlyProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
+            console.log('Details found .....');
+            res.status(200).send({ "success": 'Y', "data": response });            
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }else{
+        MongoQuery.getMonthlyProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
+            console.log('Details found .....');
+            res.status(200).send({ "success": 'Y', "data": response });            
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }
 });
 
 app.delete('/del_user', function (req, res) {
@@ -164,7 +199,7 @@ app.delete('/del_user', function (req, res) {
     res.send('Hello DELETE');
 });
 
-app.post('/dealer', json, function (req, res) {    
+app.post('/adddealer', json, function (req, res) {    
     console.log("req body >>>>>>>", req.body);
     
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'DealerData').then(function (response) {
@@ -178,7 +213,7 @@ app.post('/dealer', json, function (req, res) {
 
 app.get('/dealerList', json, function (req, res) {    
     console.log("req body >>>>>>>", req.body);
-    MongoQuery.getAllUserData(DB_NAME, req.body, 'DealerData').then(function (response) {    
+    MongoQuery.getDealerList(DB_NAME, req.body, 'DealerData').then(function (response) {    
         console.log('Details found successfully...');
         res.status(200).send({ "success": 'Y', "data": response });               
     }, function (msg) {

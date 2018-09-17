@@ -16,7 +16,22 @@ var MongoQuery = function () {
 				});
 			});
 		},
-		getBillData: function (db_name, query, tableName) {
+		getDealerList: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.find({}, {name : 1}).toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data)
+						reslove(data);
+					});
+				});
+			});
+		},
+		getMonthlyBillData: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
@@ -24,7 +39,7 @@ var MongoQuery = function () {
 					userCollection.aggregate([
 						// {$addFields: { "month": {$month: new Date('2018-09-20')}, 'year': {$year: new Date('2018-09-20')}}},
 						// {$addFields: { "month": {$month: new Date("$date")}, 'year': {$year: new Date("$date")}}},
-						{$addFields: { "month":{$substr: ["$date", 5, 2] }, "year":{$substr: ["$date", 0, 4]}}},
+						{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
 						{$match: { month: query.month, year: query.year, flag: query.flag }}
 						// {$match: { month: 9, year: 2018, customerName: 'shgda' }}
 					]).toArray(function (err, data) {
@@ -37,25 +52,53 @@ var MongoQuery = function () {
 				});
 			});
 		},
-		getProfit: function (db_name, query, tableName) {
+		getYearlyBillData: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.aggregate([						
+						{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+						{$match: { year: query.year, flag: query.flag }}						
+					]).toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data);
+						reslove(data);
+					});
+				});
+			});
+		},
+		getMonthlyProfit: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
 					userCollection.aggregate([
-						{$addFields: { "month": {$month: ISODate("2018-09-20T00:00:00Z")}, 'year': {$year: ISODate("2018-09-20T00:00:00Z")}}},
-						{$match: { month: 9, year: 2018}},
-						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"},"count": {"$sum": 1}}}
-					  ])
-					// userCollection.aggregate({
-					// 	"$group" : {
-					// 		"_id": "$flag",
-					// 		"totalPrice": {
-					// 			"$sum": "netAmountPayble"
-					// 		}
-					// 	}
-					// }).toArray(function (err, data) {
-						.toArray(function (err, data) {
+						{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
+						{$match: { month: query.month, year: query.year }},
+						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"}, "amountDueTotal": {"$sum": "$amountDue"},"count": {"$sum": 1}}}
+					  ]).toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data)
+						reslove(data);
+					});
+				});
+			});
+		},
+		getYearlyProfit: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.aggregate([
+						{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+						{$match: { year: query.year }},
+						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"}, "Amount Due": {"$sum": "$amountDue"},"count": {"$sum": 1}}}
+					  ]).toArray(function (err, data) {
 						if (err) {
 							reject(err);
 						}
@@ -88,7 +131,7 @@ var MongoQuery = function () {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
 					userCollection.find().toArray(function (err, data) {
-						//con.close();
+						
 						if (err) {
 							reject(err);
 						}

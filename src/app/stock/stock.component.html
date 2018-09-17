@@ -1,5 +1,5 @@
 <div class="col-md-8 offset-md-1">
-    <form [formGroup]="billForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">       
+    <form [formGroup]="stockForm">       
           <legend>Stock Bill:</legend>       
       <div class="row">
         <div class="col-md-4 col-lg-4 col-sm-4 form-group">
@@ -11,29 +11,27 @@
         </div>                          
         
         <div class="col-md-4 col-lg-4 col-sm-4 form-group">
-            <label for="billNumber">Cylinder Type</label>
-            <!-- <input type="text" formControlName="billNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.billNumber.errors }"
-            /> -->
-            <select id="category" class="form-control" formControlName="billNumber">
+            <label for="cylinderType">Cylinder Type</label>            
+            <select id="category" class="form-control" formControlName="cylinderType">
                 <option value="" >select a category</option>
                 <option *ngFor="let item of ['Domestic', 'Commercial']" value={{item}}>{{item}}</option>
               </select>
-            <div *ngIf="submitted && f.billNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.billNumber.errors.required">Bill Number is required</div>
+            <div *ngIf="submitted && f.cylinderType.errors" class="invalid-feedback">
+                <div *ngIf="f.cylinderType.errors.required">Cylinder type is required</div>
             </div>
         </div>  
         
         <div class="col-md-4 col-lg-4 col-sm-4 form-group">
-            <label for="description">Cylinder Size</label>
-            <select class="form-control" formControlName="description">
+            <label for="cylinderSize">Cylinder Size</label>
+            <select class="form-control" formControlName="cylinderSize">
                 <option value="">Select Size</option>
                 <option value='12'>12</option>
                 <option value='15'>15</option>
                 <option value='17'>17</option>
                 <option value='21'>21</option>                        
             </select>
-            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                <div *ngIf="f.description.errors.required">Bill Number is required</div>
+            <div *ngIf="submitted && f.cylinderSize.errors" class="invalid-feedback">
+                <div *ngIf="f.cylinderSize.errors.required">Cylinder Size is required</div>
             </div>
         </div>
         </div>        
@@ -67,44 +65,34 @@
     <br>
     <hr>
     <br>
-    <form [formGroup]="miscForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">        
+    <form>        
         <legend>Miscellaneous Bill:</legend> 
         <div class="row">
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                 <label for="date">Date</label>
-                <input type="date" formControlName="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />
-                <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
-                    <div *ngIf="f.date.errors.required">Please select date</div>
-                </div>
+                <input type="date" name="date" [(ngModel)]="modal.date" class="form-control" />                
             </div>                          
             
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                 <label for="description">Description</label>
-                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
-                />
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                    <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
+                <input type="text" name="description" [(ngModel)]="modal.description" class="form-control"/>                
             </div>  
             
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                 <label for="netAmountPayable">Amount</label>
-                <input type="Number" formControlName="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }" />                
-                <div *ngIf="submitted && f.netAmountPayable.errors" class="invalid-feedback">
-                    <div *ngIf="f.netAmountPayable.errors?.required">Amount is required</div>    
-                </div>
+                <input type="Number" name="netAmountPayable" [(ngModel)]="modal.netAmountPayable" class="form-control" />                                
             </div>
         </div>
         <br>
         <div class="form-group">            
-            <button [disabled]="loading" class="btn btn-primary saveButton">Save Bill</button>
+            <button [disabled]="!(modal.date &&  modal.netAmountPayable)" class="btn btn-primary saveButton" (click)="saveMisc()">Save Bill</button>
         </div>
     </form> 
 </div>
 <br>
-<hr>
 <br>
-<div class="container-fluid">
+<br>
+<!-- <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-lg-2 col-sm-2 offset-md-1">
               <h4> Select Duration</h4>
@@ -143,7 +131,4 @@
                 <button [disabled]="search_loading" class="btn btn-primary">Download</button>            
             </div>
           </div>
-    </div>    
-    <br>
-    <br>
-    <br>
+    </div>     -->

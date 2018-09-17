@@ -20,17 +20,18 @@ export class BillComponent implements OnInit {
   customer : boolean = true;  
   billData = {};
   dealersList = [];
-  model = {
-    email: '',
+  modal = {
+    name: '',
     address: '',
     phone: ''
-    };
+  };
 
-  constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
+  constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { 
+    this.fetchDealerList();    
+  }
 
   ngOnInit() {
-    this.dealersList = ['Pann', 'Mann'];
-
+        
     this.billForm = this.formBuilder.group({
       customerName: ['', Validators.required],
       address: ['', Validators.required],
@@ -104,6 +105,7 @@ export class BillComponent implements OnInit {
       partyGstNumber: this.billForm.controls.partyGstNumber.value,
       date: new Date(this.billForm.controls.date.value).toISOString(),
       cylinderSize: this.billForm.controls.cylinderSize.value,
+      cylinderType: '',
       description: this.billForm.controls.description.value,
       quantity: this.billForm.controls.quantity.value,
       rate: this.billForm.controls.rate.value,
@@ -117,6 +119,17 @@ export class BillComponent implements OnInit {
       flag: this.billForm.controls.flag.value ? this.billForm.controls.flag.value : 'customer'
     }
     return this.billData;
+  }
+
+  fetchDealerList(){
+
+    this.http.get('http://localhost:8081/dealerList').subscribe((result : any) =>{
+      result.data.forEach(element => {
+        this.dealersList.push(element.name);
+      });
+      console.log(this.dealersList);
+    });
+    
   }
 
   onSubmit() {
@@ -137,6 +150,7 @@ export class BillComponent implements OnInit {
     this.loadData();
     this.http.post(url, this.billData).subscribe(data => {
       console.log(data);
+      this.ngOnInit();
     }, err => {
       console.log();
       this.dealersList = ['Pann', 'Mann','wolring'];
@@ -144,8 +158,8 @@ export class BillComponent implements OnInit {
   }
 
   addNewDealer(result){
-    this.http.post('http://localhost:8081/adddealer',{}).subscribe(data => {
-
+    this.http.post('http://localhost:8081/adddealer', result).subscribe(data => {
+      console.log(data);
     }, err => {
       console.log();
       this.dealersList = ['Pann', 'Mann','wolring'];
@@ -154,7 +168,8 @@ export class BillComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.addNewDealer(result);
+      console.log(result);
+      this.addNewDealer(result);      
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -182,6 +197,7 @@ export class BillComponent implements OnInit {
     })
       .subscribe(res => {
         console.log(res);
+        this.ngOnInit();
         var file = new Blob([res], {type: 'application/pdf'});
         var fileURL = window.URL.createObjectURL(file);
         a.href = fileURL;
