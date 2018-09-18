@@ -67,12 +67,12 @@ export class TransactionComponent implements OnInit {
     let url = "http://localhost:8081/update";
     console.log(data);
     
-    // this.http.post(url, data)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //   }, err =>{
-    //     console.log(err);
-    //   });
+    this.http.post(url, data)
+      .subscribe(res => {
+        console.log(res);
+      }, err =>{
+        console.log(err);
+      });
   }
 
   download_excel() {

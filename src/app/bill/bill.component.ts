@@ -88,7 +88,7 @@ export class BillComponent implements OnInit {
     let totalAmount = Number(quantity * rate);    
     let cgst = Number(this.billForm.controls.cgst.value);
     let sgst = Number(this.billForm.controls.sgst.value);
-    let netAmountPayable = totalAmount +  ( totalAmount * ( Number( (cgst + sgst)/100 ) ) );
+    let netAmountPayable = Math.round(totalAmount +  ( totalAmount * ( Number( (cgst + sgst)/100 ) ) ));
     let amountPaid = Number(this.billForm.controls.amountPaid.value);
     let amountDue = (Number(netAmountPayable) - Number(amountPaid));
 
@@ -103,7 +103,7 @@ export class BillComponent implements OnInit {
       address: this.billForm.controls.address.value,
       billNumber: this.billForm.controls.billNumber.value,
       partyGstNumber: this.billForm.controls.partyGstNumber.value,
-      date: new Date(this.billForm.controls.date.value).toISOString(),
+      date: new Date(this.billForm.controls.date.value),
       cylinderSize: this.billForm.controls.cylinderSize.value,
       cylinderType: '',
       description: this.billForm.controls.description.value,
@@ -188,7 +188,7 @@ export class BillComponent implements OnInit {
 
   generateBill() {
     this.loadData();
-    let url = "http://localhost:8081/myaction";
+    let url = "http://localhost:8081/generatePDF";
     var a = document.createElement("a");
     document.body.appendChild(a);
     this.http.post(url, this.billData, {

@@ -97,7 +97,7 @@ var MongoQuery = function () {
 					userCollection.aggregate([
 						{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
 						{$match: { year: query.year }},
-						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"}, "Amount Due": {"$sum": "$amountDue"},"count": {"$sum": 1}}}
+						{"$group":{"_id": "$flag", "totalPrice": {"$sum": "$netAmountPayable"}, "amountDueTotal": {"$sum": "$amountDue"},"count": {"$sum": 1}}}
 					  ]).toArray(function (err, data) {
 						if (err) {
 							reject(err);

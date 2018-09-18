@@ -54,7 +54,7 @@ export class ProfitComponent implements OnInit {
         this.show_table = true;
         this.profitDetails = res;
         this.parseProfitDetail(res.data);
-        console.log(res);
+        console.log(res.data);
       }, err => {
         console.log("error occurred", err);        
       });    
@@ -75,6 +75,30 @@ export class ProfitComponent implements OnInit {
       this.profitObject.amountDue += list[i].amountDueTotal;
     }
     this.profitObject.profit = this.profitObject.stock - (this.profitObject.miscellaneous + this.profitObject.customer + this.profitObject.dealer) ;
+  }
+
+  download_excel() {
+    this.download_loading = true;    
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    let binaryData = [];
+    let url = "http://localhost:8081/downloadexcel";
+        
+    this.http.post(url, this.tempData, {
+      responseType: 'arraybuffer'      
+    })
+      .subscribe(res => {
+        console.log(res);
+        this.download_loading = false;
+        binaryData.push(res);
+        let file = new Blob(binaryData, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+        let fileURL = window.URL.createObjectURL(file);
+        a.href = fileURL;
+        a.download = 'export.xlsx';
+        a.click();
+      }, err => {
+        console.log("error occurred", err);
+      });        
   }
 
 

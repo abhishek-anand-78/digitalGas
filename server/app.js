@@ -35,12 +35,10 @@ app.get('/', function (req, res) {
     res.send('Hello GET');
 })
 
-app.post('/myaction', json, function (req, res) {    
+app.post('/generatePDF', json, function (req, res) {    
     console.log("req body >>>>>>>", req.body);
     wordcreator(req.body).then(function (data) {
-
-        res.sendFile('G:\\digitalGas\\downloads\\file_4.pdf');
-        console.log("file created successfully");        
+        res.sendFile('G:\\digitalGas\\downloads\\file_4.pdf');             
     });
         
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
@@ -79,9 +77,8 @@ app.post('/search', json, function (req, res) {
 });
 
 // handle download excel file
-app.post('/downloadexcel', json, function (req, res) {            
-    // MongoQuery.getAllUserData(DB_NAME, req.body, 'CustomerData').then( function (response) {
-    if(req.body.month="whole"){
+app.post('/downloadexcel', json, function (req, res) {                
+    if(req.body.month == "whole"){
         MongoQuery.getYearlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response).then(function (){
                 res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
@@ -94,7 +91,7 @@ app.post('/downloadexcel', json, function (req, res) {
             res.status(500).send({ "success": 'N', msg: msg });
         })
     }else{
-        MongoQuery.getMontlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
+        MongoQuery.getMonthlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response).then(function (){
                 res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
                 console.log('Details found .....');
@@ -117,9 +114,10 @@ wordcreator = function (data) {
           address: '106 New Pimpri, Wakad, Pune',
           name: 'Gas Agency Name',
         },
+        date: data.date,
         customer: {
           name: data.customerName,
-          email: ' , Address :- '+ data.address,
+          address: 'Address :- '+ data.address,
         },
         items: [
           {amount: data.totalAmount, name: data.rate, description: data.description, quantity: data.quantity},
@@ -142,16 +140,16 @@ wordcreator = function (data) {
 app.post('/update', json, function(req, res){
     MongoQuery.updateUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
         console.log('Details updated successfully...');
-        // res.status(200).send({ "success": 'Y', "data": response });               
+        res.status(200).send({ "success": 'Y', "data": response });               
     }, function (msg) {
         console.log("DB error occurred...", msg);
         res.status(500).send({ "success": 'N', msg: msg });
     })
-})
+});
 
 app.post('/fetchbill', json, function (req, res) {  
     console.log("req body >>>>>>>", req.body);
-    if(req.body.month="whole"){
+    if(req.body.month == "whole"){
         MongoQuery.getYearlyBillData(DB_NAME, req.body, 'CustomerData').then(function (response) {
             console.log('Details found .....');
             res.status(200).send({ "success": 'Y', "data": response });
@@ -175,7 +173,7 @@ app.post('/fetchbill', json, function (req, res) {
 
 app.post('/getprofit', json, function (req, res) {  
     console.log("req body >>>>>>>", req.body);
-    if(req.body.month="whole"){
+    if(req.body.month == "whole"){
         MongoQuery.getYearlyProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
             console.log('Details found .....');
             res.status(200).send({ "success": 'Y', "data": response });            
@@ -185,18 +183,13 @@ app.post('/getprofit', json, function (req, res) {
         })
     }else{
         MongoQuery.getMonthlyProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
-            console.log('Details found .....');
+            console.log(req.body);
             res.status(200).send({ "success": 'Y', "data": response });            
         }, function (msg) {
             console.log("DB error occurred...", msg);
             res.status(500).send({ "success": 'N', msg: msg });
         })
     }
-});
-
-app.delete('/del_user', function (req, res) {
-    console.log("Got a DELETE request for /del_user");
-    res.send('Hello DELETE');
 });
 
 app.post('/adddealer', json, function (req, res) {    

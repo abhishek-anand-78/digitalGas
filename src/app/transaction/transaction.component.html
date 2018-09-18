@@ -1,46 +1,3 @@
-<!--<h4>Transactions</h4>-->
-<!-- <div class="">
-  <form [formGroup]="transactionForm" action="/myaction" method="post" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-md-3 col-lg-3 col-sm-3 form-group">
-        <label for="months">Month</label>
-        <select formControlName="months" class="form-control">
-              <option>Select</option>
-              <option>Jan</option>
-              <option>Feb</option>
-              <option>Mar</option>
-              <option>Apr</option>
-              <option>May</option>
-              <option>Jun</option>
-              <option>Jul</option>
-              <option>Aug</option>
-              <option>Sep</option>
-              <option>Oct</option>
-              <option>Nov</option>
-              <option>Dec</option>
-            </select>
-      </div>
-      <div class="col-md-3 col-lg-3 col-sm-3 form-group">
-        <label for="year">Year</label>
-        <select formControlName="year" class="form-control">
-              <option default>Select</option>
-              <option>2018</option>
-              <option>2019</option>
-              <option>2020</option>
-              <option>2021</option>
-              <option>2022</option>
-              <option>2023</option>
-              <option>2024</option>
-            </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <button [disabled]="search_loading" class="btn btn-primary" (click)='search()'>Search</button>      
-    </div>
-  </form>
-</div> -->
-
 <form [formGroup]="transactionForm" > 
   <div class="row">
     <div class="col-md-2 col-lg-2 col-sm-2">
@@ -92,7 +49,7 @@
 </form>
 
 <div *ngIf = 'show_table' class="table-responsive">
-  <table class="table table-hover">
+  <table class="table table-hover" *ngIf="tempData.flag == 'customer' ">
     <thead>
       <tr style="border: 1px solid black;text-align:center;">
         <!-- <th scope="col">#</th> -->
@@ -102,35 +59,109 @@
         <th scope="col-md-1">Party GSTIN</th>
         <th scope="col-md-1">Date</th>
         <th scope="col-md-1">Description</th>
+        <th scope="col-md-1">cylinder Size</th>
         <th scope="col-md-1">Quantity</th>
         <th scope="col-md-1">Rate</th>
         <th scope="col-md-1">Total Amount</th>
         <th scope="col-md-1">CGST %</th>
         <th scope="col-md-1">SGST %</th>
         <th scope="col-md-1">Net Amount Payable</th>
+        <th scope="col-md-1">Amount Paid </th>
+        <th scope="col-md-1">Amount Due</th>
       </tr>
     </thead>
     <tbody>
-      
+      <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">
+        <td>{{item.customerName}}</td>
+        <td>{{item.address}}</td>
+        <td>{{item.billNumber}}</td>
+        <td>{{item.partyGstNumber}}</td>
+        <td>{{item.date}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.cylinderSize}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.rate}}</td>
+        <td>{{item.totalAmount}}</td>
+        <td>{{item.cgst}}</td>
+        <td>{{item.sgst}}</td>
+        <td>{{item.netAmountPayable}}</td>
+        <td>{{item.amountPaid}}</td>
+        <td>{{item.amountDue}}</td>        
+      </tr>
     </tbody>
   </table>
+
+  <table class="table table-hover" *ngIf="tempData.flag == 'stock' ">
+      <thead>
+        <tr style="border: 1px solid black;text-align:center;">
+          <!-- <th scope="col">#</th> -->          
+          <th scope="col-md-1">Date</th>
+          <th scope="col-md-1">Cylinder Type</th>
+          <th scope="col-md-1">Cylinder Size</th>
+          <th scope="col-md-1">Quantity</th>
+          <th scope="col-md-1">Rate</th>          
+          <th scope="col-md-1">Net Amount Payable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">          
+          <td>{{item.date}}</td>
+          <td>{{item.cylinderSize}}</td>
+          <td>{{item.cylinderType}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.rate}}</td>          
+          <td>{{item.netAmountPayable}}</td>
+        </tr>
+      </tbody>
+  </table>
+
+  <table class="table table-hover" *ngIf="tempData.flag == 'miscellaneous' ">
+      <thead>
+        <tr style="text-align:center;">
+          <!-- <th scope="col">#</th> -->          
+          <th scope="col-md-1">Date</th>
+          <th scope="col-md-1">Description</th>          
+          <th scope="col-md-1">Total Amount</th>          
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">         
+          <td>{{item.date}}</td>
+          <td>{{item.description}}</td>                    
+          <td>{{item.netAmountPayable}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover" *ngIf="tempData.flag == 'dealer' ">
+        <thead>
+          <tr style="border: 1px solid black;text-align:center;">
+            <!-- <th scope="col">#</th> -->            
+            <th scope="col-md-1">Date</th>
+            <th scope="col-md-1">Dealer</th>
+            <th scope="col-md-1">Cylinder Size</th>
+            <th scope="col-md-1">Quantity</th>
+            <th scope="col-md-1">Rate</th>
+            <th scope="col-md-1">Total Amount</th>            
+            <th scope="col-md-1">Amount Paid </th>
+            <th scope="col-md-1">Amount Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">            
+            <td>{{item.date}}</td>
+            <td>{{item.dealer}}</td>
+            <td>{{item.cylinderSize}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.rate}}</td>            
+            <td>{{item.netAmountPayable}}</td>
+            <td>{{item.amountPaid}}</td>            
+            <td>{{item.amountDue}}</td>
+          </tr>
+        </tbody>
+      </table>
+
 </div>
-<!--  -->
-<div class="container-fluid">
-<div class="row c" *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="border:1px solid black;border-radius:4px;text-align:center;">
-    <div class="col-md-1">{{item.customerName}}</div>
-    <div class="col-md-1">{{item.address}}</div>
-    <div class="col-md-1">{{item.billNumber}}</div>
-    <div class="col-md-1">{{item.partyGstNumber}}</div>
-    <div class="col-md-1">{{item.date}}</div>
-    <div class="col-md-1">{{item.description}}</div>
-    <div class="col-md-1">{{item.quantity}}</div>
-    <div class="col-md-1">{{item.rate}}</div>
-    <div class="col-md-1">{{item.totalAmount}}</div>
-    <div class="col-md-1">{{item.cgst}}</div>
-    <div class="col-md-1">{{item.sgst}}</div>
-    <div class="col-md-1">{{item.netAmountPayable}}</div>
-  </div>
-  </div>
+
 
 <button [disabled]="download_loading" *ngIf="show_table" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>

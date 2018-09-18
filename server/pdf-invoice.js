@@ -12,10 +12,10 @@ function PDFInvoice(_ref) {
   var company = _ref.company;
   var customer = _ref.customer;
   var items = _ref.items;
-
-  var date = new Date();
+  var date = _ref.date;
+  // var date = new Date();
   var charge = {
-    createdAt: date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear(),
+    // createdAt: date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear(),
     amount: items.reduce(function (acc, item) {
       return acc + item.amount;
     }, 0)
@@ -40,14 +40,14 @@ function PDFInvoice(_ref) {
 
       var borderOffset = doc.currentLineHeight() + 70;
 
-      doc.fontSize(16).fillColor('#cccccc').text(moment().format('MMMM, DD, YYYY'), CONTENT_LEFT_PADDING, 50, {
+      doc.fontSize(16).fillColor('#cccccc').text(moment(date).format('MMMM DD, YYYY'), CONTENT_LEFT_PADDING, 50, {
         align: 'right'
       }).fillColor('#333333');
 
       doc.strokeColor('#cccccc').moveTo(CONTENT_LEFT_PADDING, borderOffset).lineTo(divMaxWidth, borderOffset);
     },
     genFooter: function genFooter() {
-      doc.fillColor('#cccccc');
+      // doc.fillColor('#cccccc');
 
       doc.fontSize(12).text(company.name, CONTENT_LEFT_PADDING, 450);
 
@@ -61,8 +61,8 @@ function PDFInvoice(_ref) {
       doc.fontSize(12).text(translate.chargeFor, CONTENT_LEFT_PADDING, 100);
 
       doc.text( customer.name );
-      doc.text( customer.email );
-      doc.text( 'customer.email' );
+      // doc.text( customer.email );
+      // doc.text( 'customer.email' );
       doc.text( customer.address );
     },
     genTableHeaders: function genTableHeaders() {
