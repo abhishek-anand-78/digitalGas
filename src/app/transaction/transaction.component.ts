@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -17,7 +18,51 @@ export class TransactionComponent implements OnInit {
   download_loading = false;
   show_table = false;
   transactionDetails = {};
-  constructor(private formBuilder: FormBuilder, public http: HttpClient) { }
+
+  misc_modal = {
+    date: new Date('2018-09-19'),
+    description: 'iudiouo',
+    totalAmount: 0,
+    netAmountPayable: 0
+  }
+  stock_modal = {
+    date: new Date('2018-09-19'),
+    cylinderType: 'domestic',
+    cylinderSize: 21,
+    quantity: 12,
+    rate: 12,
+    totalAmount: 144
+  } 
+
+  dealer_modal = {
+    dealerName: 'mann',
+    date: new Date('2018-09-19'),    
+    cylinderSize: 21,
+    quantity: 12,
+    rate: 12,
+    totalAmount: 144,
+    amountPaid: 100,
+    amountDue: 44
+  } 
+
+  customer_modal = {    
+    customerName: 'customerName',
+    address: 'address',
+    billNumber: 'billNumber',
+    partyGstNumber: 'partyGstNumber',
+    date: new Date('2018-09-19'),    
+    cylinderSize: 21,
+    description: 'msnafkja',
+    quantity: 12,
+    rate: 12,
+    totalAmount: 144,
+    cgst: 10,
+    sgst:10,
+    netAmountPayable: 100,
+    amountPaid: 100,
+    amountDue: 44
+  } 
+  constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.search_loading = false;
@@ -63,11 +108,10 @@ export class TransactionComponent implements OnInit {
     // me.transactionDetails = res;
   }
 
-  update_customer(data){
+  update_customer(userID, result){
     let url = "http://localhost:8081/update";
-    console.log(data);
-    
-    this.http.post(url, data)
+
+    this.http.post(url, {userID: userID, data: result})
       .subscribe(res => {
         console.log(res);
       }, err =>{
@@ -99,4 +143,74 @@ export class TransactionComponent implements OnInit {
         console.log("error occurred", err);
       });        
   }
+
+  open(content, x) { 
+    if(x.flag == 'miscellaneous' ){
+      this.misc_modal = {
+        date: x.date,
+        description: x.description,
+        netAmountPayable: x.netAmountPayable,
+        totalAmount: x.totalAmount
+      };
+    }       
+    else if(x.flag == 'stock' ){
+      this.stock_modal = {
+        date: x.date,
+        cylinderType: x.cylinderType,
+        cylinderSize: x.cylinderSize,
+        quantity: x.quantity,
+        rate: x.rate,
+        totalAmount: x.totalAmount
+      } 
+    }else if(x.flag == 'dealer'){
+      this.dealer_modal = {
+        dealerName: x.dealer,
+        date: x.date, 
+        cylinderSize: x.cylinderSize,
+        quantity: x.quantity,
+        rate: x.rate,
+        totalAmount: x.totalAmount,
+        amountPaid: x.amountPaid,
+        amountDue: x.amountDue
+      } 
+    }else{  
+      this.customer_modal = {    
+        customerName: x.customerName,
+        address: x.address,
+        billNumber: x.billNumber,
+        partyGstNumber: x.partyGstNumber,
+        date: x.date,    
+        cylinderSize: x.cylinderSize,
+        description: x.description,
+        quantity: x.quantity,
+        rate: x.rate,
+        totalAmount: x.totalAmount,
+        cgst: x.cgst,
+        sgst:x.sgst,
+        netAmountPayable: x.netAmountPayable,
+        amountPaid: x.amountPaid,
+        amountDue: x.amountDue
+      } 
+  }
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
+      this.update_customer(x._id, result);      
+      // this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+
+
 }
+
+// let closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+
+// private getDismissReason(reason: any): string {
+//   if (reason === ModalDismissReasons.ESC) {
+//     return 'by pressing ESC';
+//   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+//     return 'by clicking on a backdrop';
+//   } else {
+//     return  `with: ${reason}`;
+//   }
+// }

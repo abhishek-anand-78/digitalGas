@@ -6,7 +6,15 @@ var fs = require('fs');
 //console.log("this.response", response);
 // generateExcel = function(){  
 var generateExcel = function (response) {
-    let flag = response[0].flag;
+    let temp = response[0];
+    console.log(response);
+    let flag = 'none';
+    for(i in temp){
+        if(i == 'flag'){
+            flag = response[0].flag;
+        }
+    }
+    console.log(flag);
     let workbook = new Excel.Workbook();
     var worksheet = workbook.addWorksheet('My Sheet');
     worksheet.getRow(1).font = { name: 'Calibri', family: 4, size: 12, bold: true };
@@ -35,7 +43,7 @@ var generateExcel = function (response) {
             worksheet.addRow({
                 id: i + 1, 
                 custName: response[i].customerName, 
-                custAddress: response[i].customerAddress,
+                custAddress: response[i].address,
                 billNum: response[i].billNumber, 
                 partyGST: response[i].partyGstNumber, 
                 date: response[i].date,
@@ -100,7 +108,7 @@ var generateExcel = function (response) {
                 amountDue: response[i].amountDue                
             });
         }
-    }else{
+    }else if(flag == 'miscellaneous'){
         worksheet.columns = [
             { header: 'Id', key: 'id', width: 7 },            
             { header: 'Date', key: 'date', width: 13 },    
@@ -116,6 +124,52 @@ var generateExcel = function (response) {
                 netAmount: response[i].netAmountPayable         
             });
         }
+    }else{
+        let profitObject ={
+            stock: 0,
+            dealer : 0,
+            customer: 0,
+            miscellaneous: 0,
+            amountDue : 0,
+            profit: 0
+        };
+        
+        for(let j =0; j< response.length; j++){
+            if(response[j]._id == "miscellaneous"){
+                profitObject.miscellaneous = response[j].totalPrice
+            }else if(response[j]._id == "customer"){
+                profitObject.customer = response[j].totalPrice
+            }else if(response[j]._id == "dealer"){
+                profitObject.dealer = response[j].totalPrice
+            }else{
+                profitObject.stock = response[j].totalPrice
+            }
+            profitObject.amountDue += response[j].amountDueTotal;
+        }
+        profitObject.profit = profitObject.stock - (profitObject.miscellaneous + profitObject.customer + profitObject.dealer) ;
+        console.log(profitObject);
+        console.log(response[0]);
+        worksheet.columns = [
+            { header: 'Id', key: 'id', width: 7 },            
+            { header: 'Stock', key: 'stock', width: 23 },    
+            { header: 'Dealer', key: 'dealer', width: 23 },                          
+            { header: 'Customer', key: 'customer', width: 23 },
+            { header: 'miscellaneous', key: 'miscellaneous', width: 23 },
+            { header: 'Amount Pending', key: 'amountPending', width: 23 },
+            { header: 'Profit', key: 'profit', width: 23 }            
+        ];
+
+        
+        worksheet.addRow({
+            id: 1,                 
+            stock: profitObject.stock,   
+            dealer: profitObject.dealer,                                       
+            customer: profitObject.customer,
+            miscellaneous: profitObject.miscellaneous,                                       
+            amountPending: profitObject.amountDue, 
+            profit: profitObject.profit         
+        });
+        
     }
 
 

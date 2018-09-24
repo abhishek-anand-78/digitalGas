@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import {saveAs} from 'file-saver';
@@ -12,7 +12,9 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./bill.component.css']
 })
 export class BillComponent implements OnInit {
+  @ViewChild('content') content: ElementRef;
   billForm: FormGroup;
+  confirm: boolean = false;
   category : string;
   closeResult: string;
   submitted = false;
@@ -91,7 +93,8 @@ export class BillComponent implements OnInit {
     let netAmountPayable = Math.round(totalAmount +  ( totalAmount * ( Number( (cgst + sgst)/100 ) ) ));
     let amountPaid = Number(this.billForm.controls.amountPaid.value);
     let amountDue = (Number(netAmountPayable) - Number(amountPaid));
-
+    // let cylinderSize = this.billForm.controls.cylinderSize.value + 'kg cylinder';
+    // this.billForm.controls['cylinderSize'].setValue(cylinderSize);
     this.billForm.controls['totalAmount'].setValue(totalAmount);
     this.billForm.controls['netAmountPayable'].setValue(netAmountPayable);
     this.billForm.controls['amountDue'].setValue(amountDue);    
@@ -103,7 +106,7 @@ export class BillComponent implements OnInit {
       address: this.billForm.controls.address.value,
       billNumber: this.billForm.controls.billNumber.value,
       partyGstNumber: this.billForm.controls.partyGstNumber.value,
-      date: new Date(this.billForm.controls.date.value),
+      date: this.billForm.controls.date.value,
       cylinderSize: this.billForm.controls.cylinderSize.value,
       cylinderType: '',
       description: this.billForm.controls.description.value,
@@ -122,14 +125,12 @@ export class BillComponent implements OnInit {
   }
 
   fetchDealerList(){
-
     this.http.get('http://localhost:8081/dealerList').subscribe((result : any) =>{
       result.data.forEach(element => {
         this.dealersList.push(element.name);
       });
       console.log(this.dealersList);
-    });
-    
+    });    
   }
 
   onSubmit() {
@@ -147,10 +148,9 @@ export class BillComponent implements OnInit {
 
   saveBill(){
     let url = "http://localhost:8081/savebill";
-    this.loadData();
     this.http.post(url, this.billData).subscribe(data => {
-      console.log(data);
-      this.ngOnInit();
+      console.log(data);      
+      this.ngOnInit();      
     }, err => {
       console.log();
       this.dealersList = ['Pann', 'Mann','wolring'];
@@ -167,27 +167,16 @@ export class BillComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      console.log(result);
-      this.addNewDealer(result);      
-      this.closeResult = `Closed with: ${result}`;
+    this.confirm = false;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
+      this.addNewDealer(result);            
     }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(reason);
     });
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
   generateBill() {
-    this.loadData();
+    // this.loadData();
     let url = "http://localhost:8081/generatePDF";
     var a = document.createElement("a");
     document.body.appendChild(a);
@@ -207,4 +196,23 @@ export class BillComponent implements OnInit {
         console.log("error occurred", err);
       });    
   }
+ openPdfModal(content){
+   this.confirm = true;
+   this.loadData();
+  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
+      this.generateBill();
+  }, (reason) => {
+    console.log(reason);
+  });
+ }
+
+ openSaveModal(content){
+  this.confirm = true;
+  this.loadData();
+  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
+      this.saveBill();  
+  }, (reason) => {
+    console.log(reason);
+  });
+ }
 }

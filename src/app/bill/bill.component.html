@@ -51,15 +51,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
-                <label for="description">Description</label>
-                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
-                />
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                    <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
-            </div>
+        <div class="row">            
             <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
                 <label for="cylinderSize">Cylinder Size</label>       
                 <select class="form-control" formControlName="cylinderSize">
@@ -69,7 +61,15 @@
                     <option value='17'>17</option>
                     <option value='21'>21</option>                        
                 </select>
-            </div>            
+            </div> 
+            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                />
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
+            </div>           
         </div>
 
         <div class="row">
@@ -131,8 +131,8 @@
 
 
         <div class="form-group">
-            <button [disabled]="billForm.invalid" class="btn btn-primary" (click)='generateBill()'>Generate Bill</button>
-            <button [disabled]="billForm.invalid" class="btn btn-primary saveButton" (click)="saveBill()">Save Bill</button>
+            <button [disabled]="billForm.invalid" class="btn btn-primary" (click)='openPdfModal(content)'>Generate Bill</button>
+            <button [disabled]="billForm.invalid" class="btn btn-primary saveButton" (click)="openSaveModal(content)">Save Bill</button>
         </div>
     </form>
 </div>
@@ -148,7 +148,7 @@
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
                     <label for="dealer">Select Dealer</label>                           
                     <select class="form-control" formControlName="dealer">
-                        <option value="">Select Dealer</option>
+                        <option>Select Dealer</option>
                         <option *ngFor="let dealer of dealersList" value={{dealer}}>{{dealer}}</option>
                     </select>
                 </div>               
@@ -163,7 +163,7 @@
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
                     <label for="cylinderSize">Cylinder Size</label>       
                     <select class="form-control" formControlName="cylinderSize">
-                        <option value="">Select Size</option>
+                        <option>Select Size</option>
                         <option value='12'>12</option>
                         <option value='15'>15</option>
                         <option value='17'>17</option>
@@ -211,8 +211,8 @@
                 </div>
             </div>        
             <div class="form-group">
-                <!-- <button [disabled]="loading" class="btn btn-primary" (click)='generateBill()'>Generate Bill</button> -->
-                <button class="btn btn-primary saveButton" (click)="saveBill()">Save Bill</button>
+                <button class="btn btn-primary" (click)='openSaveModal(content)'>Save Bill</button>
+                <!-- <button class="btn btn-primary saveButton" (click)="saveBill()">Save Bill</button> -->
             </div>
         </form>
     </div>
@@ -230,45 +230,68 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Add Dealer</h4>
+        <h4 class="modal-title" *ngIf="confirm == false" id="modal-basic-title">Add New Dealer</h4>
+        <h4 class="modal-title" *ngIf="confirm == true" id="modal-basic-title">Check Bill</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <form>
-        <!-- <div class="form-group">
-                        
-            <label for="dealerName">Name</label>
-            <input type="text" class="form-control" placeholder="Enter name" name="dealerName" />
-            <label for="dealerAddress">Address</label>
-            <input type="text" class="form-control" placeholder="Enter address" name="dealerAddress" />
-            <label for="dealerPhone">Phone</label>
-            <input type="number" class="form-control" placeholder="Enter mobile no" name="dealerPhone" />
-        </div> -->
+        <form *ngIf="confirm == false">        
         <div>
-        	<div class="col-md-4 form-group">
+        	<div class="col-md-12 form-group">
         		<label for="name">Name</label>
-        		<input type="text" name="name" [(ngModel)]="modal.name" required placeholder="enter name" />
+        		<input type="text" class="form-control" name="name" [(ngModel)]="modal.name" required placeholder="enter name" />
         	</div>
-        	<div class="col-md-4 form-group">
+        	<div class="col-md-12 form-group">
         		<label for="address">Address</label>
-        		<input type="text" name="address" [(ngModel)]="modal.address" required  placeholder="enter Address" />
+        		<input type="text" class="form-control" name="address" [(ngModel)]="modal.address" required  placeholder="enter Address" />
         	</div>
-        	<div class="col-md-4 form-group">
+        	<div class="col-md-12 form-group">
         		<label for="phone">Phone</label>
-        		<input type="text" name="phone" [(ngModel)]="modal.phone" required placeholder="enter Phone" />
+        		<input type="text" class="form-control" name="phone" [(ngModel)]="modal.phone" required placeholder="enter Phone" />
         	</div>
         </div>
         <!-- <div>
         <button class="btn btn-success" [disabled]="!(modal.name && modal.phone)" (click)="addNewDealer()">Save</button>
         </div> -->
         </form>
+        <!-- for customer -->
+        <div class="container" *ngIf="confirm == true && customer == true">
+            <pre>Customer Name:    <b>{{billData.customerName}}</b></pre>     
+            <pre>Customer Address: <b>{{billData.address}}</b></pre> 
+            <pre>Bill Number:      <b>{{billData.billNumber}}</b></pre>
+            <pre>PartlyGST:        <b>{{billData.partyGstNumber}}</b></pre>                
+            <pre>Date:             <b>{{billData.date}}</b></pre>    
+            <pre>Cylinder Size:    <b>{{billData.cylinderSize}}</b></pre>                             
+            <pre>Quantity:         <b>{{billData.quantity}}</b></pre> 
+            <pre>Rate:             <b>{{billData.rate}}</b></pre>              
+            <pre>Amount:           <b>{{billData.quantity * billData.rate}} </b></pre>       
+            <pre>CGST:             <b>{{billData.cgst}}</b></pre>     
+            <pre>SGST:             <b>{{billData.sgst}}</b></pre>     
+            <pre>Total Amount:     <b>{{billData.netAmountPayable}}</b></pre>     
+            <pre>Amount Paid:      <b>{{billData.amountPaid}}</b></pre>           
+            <pre>Amount Due:       <b>{{billData.amountDue}}</b></pre>     
+        </div>    
+
+        <!-- for dealer -->
+        <div>
+            <div class="container" *ngIf="confirm == true && customer == false">
+                <pre>Dealer:           <b>{{billData.dealer}}</b></pre>
+                <pre>Date:             <b>{{billData.date}}</b></pre>
+                <pre>Cylinder Size:    <b>{{billData.cylinderSize}}</b></pre>                             
+                <pre>Quantity:         <b>{{billData.quantity}}</b></pre> 
+                <pre>Rate:             <b>{{billData.rate}}</b></pre>                                        
+                <pre>Total Amount:     <b>{{billData.netAmountPayable}}</b></pre>     
+                <pre>Amount Paid:      <b>{{billData.amountPaid}}</b></pre>           
+                <pre>Amount Due:       <b>{{billData.amountDue}}</b></pre>    
+            </div>    
+        </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" [disabled]="!(modal.name && modal.phone)" (click)="modal.close(modal)">Save</button>
+        <button type="button" *ngIf="confirm == false" class="btn btn-success" [disabled]="!(modal.name && modal.phone)" (click)="modal.close(modal)">Save</button>
+        <button type="button" *ngIf="confirm == true" class="btn btn-success" (click)="modal.close(modal)">Save</button>
     </div>
 </ng-template>
-      
-      <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
+            
       

@@ -1,4 +1,6 @@
 var ConnectionFactory = require('./ConnectionFactory.js');
+let mongoClient = require('mongodb');
+
 var MongoQuery = function () {
 	return {
 		getAllUserData: function (db_name, query, tableName) {
@@ -123,8 +125,6 @@ var MongoQuery = function () {
 				});
 			});
 		},
-	
-
 		getTableData: function (db_name, tableName, returnFullArray) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
@@ -151,17 +151,16 @@ var MongoQuery = function () {
 		},
 
 		// these features will be available in next release
-		updateUserRecord: function (db_name, username, data, tableName) {
+		updateUserRecord: function (db_name, userID, data, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.update({ _id: username }, { $set: data }, { upsert: true }, function (err, result) {
-						//con.close();
+					userCollection.update({ '_id':new mongoClient.ObjectID(userID)}, {$set: data},{upsert: true}, function (err, result) {						
 						if (err) {
 							reject(err);
 						}
-						reslove('Y');
+						reslove(result);
 					});
 				});
 			});

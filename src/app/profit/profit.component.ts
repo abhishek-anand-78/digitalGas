@@ -82,7 +82,7 @@ export class ProfitComponent implements OnInit {
     let a = document.createElement("a");
     document.body.appendChild(a);
     let binaryData = [];
-    let url = "http://localhost:8081/downloadexcel";
+    let url = "http://localhost:8081/downloadexcelProfit";
         
     this.http.post(url, this.tempData, {
       responseType: 'arraybuffer'      

@@ -138,7 +138,8 @@ wordcreator = function (data) {
 }
 
 app.post('/update', json, function(req, res){
-    MongoQuery.updateUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
+    console.log(DB_NAME, req.body.userID, req.body.data, 'CustomerData');
+    MongoQuery.updateUserRecord(DB_NAME, req.body.userID, req.body.data, 'CustomerData').then(function (response) {
         console.log('Details updated successfully...');
         res.status(200).send({ "success": 'Y', "data": response });               
     }, function (msg) {
@@ -185,6 +186,34 @@ app.post('/getprofit', json, function (req, res) {
         MongoQuery.getMonthlyProfit(DB_NAME, req.body, 'CustomerData').then(function (response) {
             console.log(req.body);
             res.status(200).send({ "success": 'Y', "data": response });            
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }
+});
+
+app.post('/downloadexcelProfit', json, function (req, res) {                
+    if(req.body.month == "whole"){
+        MongoQuery.getYearlyProfit(DB_NAME, req.body, 'CustomerData').then( function (response) {        
+            generateExcel(response).then(function (){
+                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                console.log('Details found .....');
+            }, function(error){
+                console.log('error while sending response');
+            });        
+        }, function (msg) {
+            console.log("DB error occurred...", msg);
+            res.status(500).send({ "success": 'N', msg: msg });
+        })
+    }else{
+        MongoQuery.getMonthlyProfit(DB_NAME, req.body, 'CustomerData').then( function (response) {        
+            generateExcel(response).then(function (){
+                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                console.log('Details found .....');
+            }, function(error){
+                console.log('error while sending response');
+            });        
         }, function (msg) {
             console.log("DB error occurred...", msg);
             res.status(500).send({ "success": 'N', msg: msg });

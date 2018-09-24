@@ -71,7 +71,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">
+      <tr *ngFor="let item of transactionDetails.data"  (click)="open(content, item)" style="text-align:center;">
         <td>{{item.customerName}}</td>
         <td>{{item.address}}</td>
         <td>{{item.billNumber}}</td>
@@ -104,7 +104,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">          
+        <tr *ngFor="let item of transactionDetails.data"  (click)="open(content, item)" style="text-align:center;">          
           <td>{{item.date}}</td>
           <td>{{item.cylinderSize}}</td>
           <td>{{item.cylinderType}}</td>
@@ -125,7 +125,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">         
+        <tr *ngFor="let item of transactionDetails.data"  (click)="open(content, item)" style="text-align:center;">         
           <td>{{item.date}}</td>
           <td>{{item.description}}</td>                    
           <td>{{item.netAmountPayable}}</td>
@@ -148,7 +148,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of transactionDetails.data" (click)="update_customer(item)" style="text-align:center;">            
+          <tr *ngFor="let item of transactionDetails.data" (click)="open(content, item)" style="text-align:center;">            
             <td>{{item.date}}</td>
             <td>{{item.dealer}}</td>
             <td>{{item.cylinderSize}}</td>
@@ -164,4 +164,212 @@
 </div>
 
 
-<button [disabled]="download_loading" *ngIf="show_table" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>
+
+<ng-template #content let-modal>  
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title_dealer">Update Bill</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form>      
+          <div  *ngIf="tempData.flag == 'customer' ">
+              <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" [(ngModel)]="customer_modal.customerName" name="customerName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerName.errors }"
+                />          
+            </div>
+            <div class="form-group">
+                <label for="address">Customer Address</label>
+                <input type="text" [(ngModel)]="customer_modal.address" name="address" class="form-control" />          
+            </div>
+      
+      
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-3 form-group">
+                    <label for="billNumber">Bill Number</label>
+                    <input type="text" [(ngModel)]="customer_modal.billNumber" name="billNumber" class="form-control" />              
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="partyGstNumber">Party GSTIN</label>
+                    <input type="text" [(ngModel)]="customer_modal.partyGstNumber" name="partyGstNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.partyGstNumber.errors }"
+                    />              
+                </div>
+                <div class="col-md-5 col-lg-5 col-sm-5 form-group">
+                    <label for="date">Date</label>
+                    <input type="date" [(ngModel)]="customer_modal.date"  name="date" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.date.errors }" />              
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
+                    <label for="cylinderSize">Cylinder Size</label>       
+                    <select class="form-control" [(ngModel)]="customer_modal.cylinderSize" name="cylinderSize">
+                        <option default>Select Size</option>
+                        <option value='12'>12</option>
+                        <option value='15'>15</option>
+                        <option value='17'>17</option>
+                        <option value='21'>21</option>                        
+                    </select>
+                </div> 
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="description">Description</label>
+                    <input type="text" [(ngModel)]="customer_modal.description" name="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                    />              
+                </div>           
+            </div>
+      
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" [(ngModel)]="customer_modal.quantity" name="quantity" class="form-control" />              
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="rate">Rate </label>
+                    <input type="text" [(ngModel)]="customer_modal.rate" name="rate" class="form-control" />              
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+                    <label for="totalAmount">Total Amount</label>
+                    <input type="text" [(ngModel)]="customer_modal.totalAmount" name="totalAmount" disabled class="form-control"  />
+                </div>
+            </div>
+      
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="cgst">CGST %</label>
+                    <input type="text" [(ngModel)]="customer_modal.cgst" name="cgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
+                </div>
+      
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="sgst">SGST %</label>
+                    <input type="text" [(ngModel)]="customer_modal.sgst" name="sgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
+                </div>
+            </div>
+      
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="netAmountPayable">Net Amount Payable</label>
+                    <input type="text" disabled [(ngModel)]="customer_modal.netAmountPayable" name="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
+                    />
+                </div>
+            </div>
+      
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="amountPaid">Amount Paid</label>
+                    <input type="text" [(ngModel)]="customer_modal.amountPaid" name="amountPaid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
+                    />
+                </div>
+      
+                <div class="col-md-6 col-lg-6 col-sm-6 form-group">
+                    <label for="amountDue">Amount Due</label>
+                    <input type="text" disabled [(ngModel)]="customer_modal.amountDue" name="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
+                    />
+                </div>
+            </div>   
+          </div>   
+        <!-- Dealer modal form starts here -->
+        <div *ngIf="tempData.flag == 'dealer' ">
+            <div class="col-md-12 form-group">
+              <label for="dealerName">Dealer</label>
+              <input type="text" class="form-control" name="dealerName" [(ngModel)]="dealer_modal.dealerName" required placeholder="enter name" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="date">Date</label>
+              <input type="date" class="form-control" name="date" [(ngModel)]="dealer_modal.date" required  placeholder="enter date" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="cylinderSize">Cylinder Size</label>
+              <input type="text" class="form-control" name="cylinderSize" [(ngModel)]="dealer_modal.cylinderSize" required placeholder="enter Cylinder Size" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="quantity">Quantity</label>
+              <input type="text" class="form-control" name="quantity" [(ngModel)]="dealer_modal.quantity" required placeholder="enter quantity" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="rate">Address</label>
+              <input type="text" class="form-control" name="rate" [(ngModel)]="dealer_modal.rate" required  placeholder="enter rate" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="totalAmount">Total Amount</label>
+              <input type="text" class="form-control" name="totalAmount" [(ngModel)]="dealer_modal.totalAmount" required placeholder="enter amount" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="amountPaid">Amount Paid</label>
+              <input type="text" class="form-control" name="amountPaid" [(ngModel)]="dealer_modal.amountPaid" required placeholder="enter amount paid" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="amountDue">Amount Due</label>
+              <input type="text" class="form-control" name="amountDue" [(ngModel)]="dealer_modal.amountDue" required  placeholder="enter amount due" />
+            </div>        
+          </div>   
+          
+      <!-- Dealer modal form ends here -->
+
+      <!-- Stock modal form starts here -->
+
+      <div *ngIf="tempData.flag == 'stock' ">
+          <div class="col-md-12 form-group">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" name="date" [(ngModel)]="stock_modal.date" required placeholder="mm/dd/yyyy" />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="cylinderType">Cylinder Type</label>
+            <input type="text" class="form-control" name="cylinderType" [(ngModel)]="stock_modal.cylinderType" required  placeholder="cylinderType" />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="cylinderSize">Cylinder Size</label>
+            <input type="text" class="form-control" name="cylinderSize" [(ngModel)]="stock_modal.cylinderSize" required placeholder="cylinderSize" />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" class="form-control" name="quantity" [(ngModel)]="stock_modal.quantity" required placeholder="enter quantity" />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="rate">Rate</label>
+            <input type="text" class="form-control" name="rate" [(ngModel)]="stock_modal.rate" required  placeholder="enter rate" />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="totalAmount">Total Amount</label>
+                  <input type="text" name="totalAmount" disabled class="form-control" [(ngModel)]="stock_modal.totalAmount" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
+                  />
+          </div>        
+      </div>
+        <!-- Stock modal form ends here -->
+
+        <!-- Misc modal form starts here -->
+        <div  *ngIf="tempData.flag == 'miscellaneous' ">
+            <div class="col-md-12 form-group">
+              <label for="date">Date</label>
+              <input type="date" class="form-control" name="date" [(ngModel)]="misc_modal.date" required placeholder="mm/dd/yyyy" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" [(ngModel)]="misc_modal.description" required  placeholder="enter description" />
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="totalAmount">Total Amount</label>
+              <input type="text" class="form-control" name="totalAmount" [(ngModel)]="misc_modal.totalAmount" required placeholder="enter Phone" />
+            </div>        
+        </div> 
+        <!-- Misc modal form ends here -->
+      
+      </form>
+  </div>
+  <div class="modal-footer"  *ngIf="tempData.flag == 'customer' ">
+      <button type="button" class="btn btn-success"  (click)="modal.close(customer_modal)">Save</button>
+  </div>
+  <div class="modal-footer"  *ngIf="tempData.flag == 'stock' ">
+    <button type="button" class="btn btn-success"  (click)="modal.close(stock_modal)">Save</button>
+</div>
+<div class="modal-footer"  *ngIf="tempData.flag == 'dealer' ">
+  <button type="button" class="btn btn-success"  (click)="modal.close(dealer_modal)">Save</button>
+</div>
+<div class="modal-footer"  *ngIf="tempData.flag == 'miscellaneous' ">
+  <button type="button" class="btn btn-success"  (click)="modal.close(misc_modal)">Misc Save</button>
+</div>
+</ng-template>
+
+
+
+<button  *ngIf="show_table" class="btn btn-primary" (click)='download_excel()'>Download Excel</button>
