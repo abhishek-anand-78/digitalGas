@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-stock',
@@ -16,10 +17,10 @@ export class StockComponent implements OnInit {
   modal = {
     date: '',
     description: '',
-    netAmountPayable: ''
+    netAmountPayable: 0
   };
 
-  constructor(private formBuilder: FormBuilder, public http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.stockForm = this.formBuilder.group({      
@@ -92,13 +93,22 @@ export class StockComponent implements OnInit {
   
 
   saveStockBill(){
-    let url = "http://localhost:8081/savebill";
-    this.loadData();
+    let url = "http://localhost:8081/savebill";    
     this.http.post(url, this.billData).subscribe(data => {
       console.log(data);
+      this.ngOnInit();
     }, err => {
       console.log();      
     })
+  }
+
+  confirmBill(content) {
+    this.loadData();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
+      this.saveStockBill();         
+    }, (reason) => {
+      console.log(reason);
+    });
   }
 
   saveMisc(){
@@ -125,6 +135,11 @@ export class StockComponent implements OnInit {
     }
     this.http.post(url, miscData).subscribe(data => {
       console.log(data);
+      this.modal = {
+        date: '',
+        description: '',
+        netAmountPayable: 0
+      }
     }, err => {
       console.log();      
     })

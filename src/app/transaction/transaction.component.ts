@@ -21,7 +21,7 @@ export class TransactionComponent implements OnInit {
 
   misc_modal = {
     date: new Date('2018-09-19'),
-    description: 'iudiouo',
+    description: 'value',
     totalAmount: 0,
     netAmountPayable: 0
   }
@@ -29,20 +29,22 @@ export class TransactionComponent implements OnInit {
     date: new Date('2018-09-19'),
     cylinderType: 'domestic',
     cylinderSize: 21,
-    quantity: 12,
-    rate: 12,
-    totalAmount: 144
+    quantity: 1,
+    rate: 0,
+    totalAmount: 0,
+    netAmountPayable: 0,
   } 
 
   dealer_modal = {
-    dealerName: 'mann',
+    dealer: 'mann',
     date: new Date('2018-09-19'),    
     cylinderSize: 21,
-    quantity: 12,
-    rate: 12,
-    totalAmount: 144,
-    amountPaid: 100,
-    amountDue: 44
+    quantity: 1,
+    rate: 0,
+    totalAmount: 0,
+    netAmountPayable: 0,
+    amountPaid: 0,
+    amountDue: 0
   } 
 
   customer_modal = {    
@@ -53,14 +55,14 @@ export class TransactionComponent implements OnInit {
     date: new Date('2018-09-19'),    
     cylinderSize: 21,
     description: 'msnafkja',
-    quantity: 12,
-    rate: 12,
-    totalAmount: 144,
-    cgst: 10,
-    sgst:10,
-    netAmountPayable: 100,
-    amountPaid: 100,
-    amountDue: 44
+    quantity: 1,
+    rate: 0,
+    totalAmount: 0,
+    cgst: 0,
+    sgst:0,
+    netAmountPayable: 0,
+    amountPaid: 0,
+    amountDue: 0
   } 
   constructor(private formBuilder: FormBuilder, public http: HttpClient, private modalService: NgbModal) { }
 
@@ -143,7 +145,7 @@ export class TransactionComponent implements OnInit {
         console.log("error occurred", err);
       });        
   }
-
+  
   open(content, x) { 
     if(x.flag == 'miscellaneous' ){
       this.misc_modal = {
@@ -160,16 +162,18 @@ export class TransactionComponent implements OnInit {
         cylinderSize: x.cylinderSize,
         quantity: x.quantity,
         rate: x.rate,
-        totalAmount: x.totalAmount
+        totalAmount: x.totalAmount,
+        netAmountPayable: x.totalAmount,
       } 
     }else if(x.flag == 'dealer'){
       this.dealer_modal = {
-        dealerName: x.dealer,
+        dealer: x.dealer,
         date: x.date, 
         cylinderSize: x.cylinderSize,
         quantity: x.quantity,
         rate: x.rate,
         totalAmount: x.totalAmount,
+        netAmountPayable: x.netAmountPayable,
         amountPaid: x.amountPaid,
         amountDue: x.amountDue
       } 
@@ -193,24 +197,27 @@ export class TransactionComponent implements OnInit {
       } 
   }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
-      this.update_customer(x._id, result);      
-      // this.closeResult = `Closed with: ${result}`;
+      this.update_customer(x._id, result);            
     }, (reason) => {
       console.log(reason);
     });
   }
 
+  calculateTotal(flag){
+    if(flag == 'dealer'){
+      this.dealer_modal.totalAmount = Number(this.dealer_modal.quantity * this.dealer_modal.rate);
+      this.dealer_modal.netAmountPayable = this.dealer_modal.totalAmount;
+      this.dealer_modal.amountDue = Number(this.dealer_modal.netAmountPayable - this.dealer_modal.amountPaid);
+    }else if(flag == 'stock'){
+      this.stock_modal.totalAmount = Number(this.stock_modal.quantity * this.stock_modal.rate);
+      this.stock_modal.netAmountPayable = this.stock_modal.totalAmount;
+    }else {
+      this.customer_modal.totalAmount = Number(this.customer_modal.quantity * this.customer_modal.rate);
+      this.customer_modal.netAmountPayable = Math.round(this.customer_modal.totalAmount) + Math.round(((this.customer_modal.totalAmount * this.customer_modal.sgst)/100) + ((this.customer_modal.totalAmount * this.customer_modal.cgst)/100));
+      this.customer_modal.amountDue = Number(this.customer_modal.netAmountPayable - this.customer_modal.amountPaid);
+    }
+   
+  }
 
 }
 
-// let closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-
-// private getDismissReason(reason: any): string {
-//   if (reason === ModalDismissReasons.ESC) {
-//     return 'by pressing ESC';
-//   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-//     return 'by clicking on a backdrop';
-//   } else {
-//     return  `with: ${reason}`;
-//   }
-// }

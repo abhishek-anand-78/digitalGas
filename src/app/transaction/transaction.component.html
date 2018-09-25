@@ -222,11 +222,11 @@
             <div class="row">
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="text" [(ngModel)]="customer_modal.quantity" name="quantity" class="form-control" />              
+                    <input type="text" [(ngModel)]="customer_modal.quantity" name="quantity" (change)="calculateTotal('customer')" class="form-control" />              
                 </div>
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="rate">Rate </label>
-                    <input type="text" [(ngModel)]="customer_modal.rate" name="rate" class="form-control" />              
+                    <input type="text" [(ngModel)]="customer_modal.rate" name="rate" (change)="calculateTotal('customer')" class="form-control" />              
                 </div>
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="totalAmount">Total Amount</label>
@@ -237,12 +237,12 @@
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="cgst">CGST %</label>
-                    <input type="text" [(ngModel)]="customer_modal.cgst" name="cgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
+                    <input type="text" [(ngModel)]="customer_modal.cgst" name="cgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
                 </div>
       
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="sgst">SGST %</label>
-                    <input type="text" [(ngModel)]="customer_modal.sgst" name="sgst" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
+                    <input type="text" [(ngModel)]="customer_modal.sgst" name="sgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
                 </div>
             </div>
       
@@ -257,7 +257,7 @@
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="amountPaid">Amount Paid</label>
-                    <input type="text" [(ngModel)]="customer_modal.amountPaid" name="amountPaid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
+                    <input type="text" [(ngModel)]="customer_modal.amountPaid" name="amountPaid" (change)="calculateTotal('customer')" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
                     />
                 </div>
       
@@ -271,8 +271,8 @@
         <!-- Dealer modal form starts here -->
         <div *ngIf="tempData.flag == 'dealer' ">
             <div class="col-md-12 form-group">
-              <label for="dealerName">Dealer</label>
-              <input type="text" class="form-control" name="dealerName" [(ngModel)]="dealer_modal.dealerName" required placeholder="enter name" />
+              <label for="dealer">Dealer</label>
+              <input type="text" class="form-control" name="dealer" [(ngModel)]="dealer_modal.dealer" required placeholder="enter name" />
             </div>
             <div class="col-md-12 form-group">
               <label for="date">Date</label>
@@ -284,11 +284,11 @@
             </div>
             <div class="col-md-12 form-group">
               <label for="quantity">Quantity</label>
-              <input type="text" class="form-control" name="quantity" [(ngModel)]="dealer_modal.quantity" required placeholder="enter quantity" />
+              <input type="text" class="form-control" name="quantity" [(ngModel)]="dealer_modal.quantity"  (change)="calculateTotal('dealer')" required placeholder="enter quantity" />
             </div>
             <div class="col-md-12 form-group">
-              <label for="rate">Address</label>
-              <input type="text" class="form-control" name="rate" [(ngModel)]="dealer_modal.rate" required  placeholder="enter rate" />
+              <label for="rate">Rate</label>
+              <input type="text" class="form-control" name="rate" [(ngModel)]="dealer_modal.rate"  (change)="calculateTotal('dealer')" required  placeholder="enter rate" />
             </div>
             <div class="col-md-12 form-group">
               <label for="totalAmount">Total Amount</label>
@@ -296,7 +296,7 @@
             </div>
             <div class="col-md-12 form-group">
               <label for="amountPaid">Amount Paid</label>
-              <input type="text" class="form-control" name="amountPaid" [(ngModel)]="dealer_modal.amountPaid" required placeholder="enter amount paid" />
+              <input type="text" class="form-control" name="amountPaid" [(ngModel)]="dealer_modal.amountPaid" (change)="calculateTotal('dealer')" required placeholder="enter amount paid" />
             </div>
             <div class="col-md-12 form-group">
               <label for="amountDue">Amount Due</label>
@@ -323,16 +323,15 @@
           </div>
           <div class="col-md-12 form-group">
             <label for="quantity">Quantity</label>
-            <input type="text" class="form-control" name="quantity" [(ngModel)]="stock_modal.quantity" required placeholder="enter quantity" />
+            <input type="text" class="form-control" name="quantity" [(ngModel)]="stock_modal.quantity" (change)="calculateTotal('stock')" required placeholder="Enter quantity" />
           </div>
           <div class="col-md-12 form-group">
             <label for="rate">Rate</label>
-            <input type="text" class="form-control" name="rate" [(ngModel)]="stock_modal.rate" required  placeholder="enter rate" />
+            <input type="text" class="form-control" name="rate" [(ngModel)]="stock_modal.rate" (change)="calculateTotal('stock')"  required  placeholder="Enter rate" />
           </div>
           <div class="col-md-12 form-group">
             <label for="totalAmount">Total Amount</label>
-                  <input type="text" name="totalAmount" disabled class="form-control" [(ngModel)]="stock_modal.totalAmount" [ngClass]="{ 'is-invalid': submitted && f.totalAmount.errors }"
-                  />
+                  <input type="text" name="totalAmount" disabled class="form-control" [(ngModel)]="stock_modal.totalAmount" placeholder="Enter Amount"/>
           </div>        
       </div>
         <!-- Stock modal form ends here -->

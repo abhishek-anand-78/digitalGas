@@ -13,7 +13,7 @@
         <div class="col-md-4 col-lg-4 col-sm-4 form-group">
             <label for="cylinderType">Cylinder Type</label>            
             <select id="category" class="form-control" formControlName="cylinderType">
-                <option value="" >select a category</option>
+                <option>select a category</option>
                 <option *ngFor="let item of ['Domestic', 'Commercial']" value={{item}}>{{item}}</option>
               </select>
             <div *ngIf="submitted && f.cylinderType.errors" class="invalid-feedback">
@@ -59,7 +59,7 @@
         </div>
         <br>
         <div class="form-group">            
-            <button [disabled]="loading" class="btn btn-primary saveButton" (click)="saveStockBill()">Save Bill</button>
+            <button class="btn btn-primary saveButton" [disabled]="stockForm.invalid" (click)="confirmBill(content)">Save Bill</button>
         </div>        
     </form>
     <br>
@@ -89,46 +89,31 @@
         </div>
     </form> 
 </div>
-<br>
-<br>
-<br>
-<!-- <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 col-lg-2 col-sm-2 offset-md-1">
-              <h4> Select Duration</h4>
-            </div>
-            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
-              <select class="form-control">
-                    <option default>Select Month</option>
-                    <option>whole year</option>
-                    <option>Jan</option>
-                    <option>Feb</option>
-                    <option>Mar</option>
-                    <option>Apr</option>
-                    <option>May</option>
-                    <option>Jun</option>
-                    <option>Jul</option>
-                    <option>Aug</option>
-                    <option>Sep</option>
-                    <option>Oct</option>
-                    <option>Nov</option>
-                    <option>Dec</option>
-                  </select>
-            </div>
-            <div class="col-md-3 col-lg-3 col-sm-3 form-group">          
-              <select class="form-control">
-                    <option default>Select Year</option>
-                    <option>2018</option>
-                    <option>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                    <option>2023</option>
-                    <option>2024</option>
-                  </select>
-            </div>
-            <div class="col-md-3 col-lg-3 col-sm-3  form-group">
-                <button [disabled]="search_loading" class="btn btn-primary">Download</button>            
-            </div>
-          </div>
-    </div>     -->
+
+<ng-template #content let-modal>
+    <div class="modal-header">        
+        <h4 class="modal-title" id="modal-basic-title">Check Bill</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">        
+        <div class="container">                            
+            <pre>Date:             <b>{{billData.date}}</b></pre>
+            <pre>Cylinder Type:    <b>{{billData.cylinderType}}</b></pre>
+            <pre>Cylinder Size:    <b>{{billData.cylinderSize}}</b></pre>                             
+            <pre>Quantity:         <b>{{billData.quantity}}</b></pre> 
+            <pre>Rate:             <b>{{billData.rate}}</b></pre>              
+            <pre>Amount:           <b>{{billData.quantity * billData.rate}} </b></pre>                        
+            <pre>Total Amount:     <b>{{billData.netAmountPayable}}</b></pre>                    
+        </div>                    
+    </div>
+    <div class="modal-footer">        
+        <button type="button" class="btn btn-success" (click)="modal.close(modal)">Save</button>
+    </div>
+</ng-template>
+            
+      
+
+
+

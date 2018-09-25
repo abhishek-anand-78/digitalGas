@@ -61,7 +61,15 @@ export class ProfitComponent implements OnInit {
   }
 
   parseProfitDetail(list){
-    this.profitObject.amountDue = 0;
+    //this.profitObject.amountDue = 0;
+    this.profitObject = {
+      'miscellaneous' : 0,
+      'dealer': 0,
+      'stock' : 0,
+      'customer' : 0,
+      'profit' : 0,
+      'amountDue' : 0
+    };
     for(let i =0; i< list.length; i++){
       if(list[i]._id == "miscellaneous"){
         this.profitObject.miscellaneous = list[i].totalPrice
