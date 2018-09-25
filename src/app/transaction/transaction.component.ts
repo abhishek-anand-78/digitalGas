@@ -150,7 +150,7 @@ export class TransactionComponent implements OnInit {
         date: x.date,
         description: x.description,
         netAmountPayable: x.netAmountPayable,
-        totalAmount: x.totalAmount
+        totalAmount: x.netAmountPayable
       };
     }       
     else if(x.flag == 'stock' ){

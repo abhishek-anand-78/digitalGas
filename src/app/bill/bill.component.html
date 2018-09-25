@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="row">            
-            <div class="col-md-4 col-lg-4 col-sm-4 form-group">   
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">   
                 <label for="cylinderSize">Cylinder Size</label>       
                 <select class="form-control" formControlName="cylinderSize">
                     <option default>Select Size</option>
@@ -62,7 +62,7 @@
                     <option value='21'>21</option>                        
                 </select>
             </div> 
-            <div class="col-md-4 col-lg-4 col-sm-4 form-group">
+            <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                 <label for="description">Description</label>
                 <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
                 />
