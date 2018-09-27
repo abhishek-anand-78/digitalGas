@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
 app.post('/generatePDF', json, function (req, res) {    
     console.log("req body >>>>>>>", req.body);
     wordcreator(req.body).then(function (data) {
-        res.sendFile('G:\\digitalGas\\downloads\\'+ reg.body.billNumber + "_" + reg.body.date + ".pdf");             
+        res.sendFile('G:\\digitalGas\\downloads\\'+ req.body.billNumber + "_" + req.body.date + ".pdf");             
     });
         
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
