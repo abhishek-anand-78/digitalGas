@@ -15,7 +15,7 @@
     <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
       <select formControlName="months" class="form-control">
             <option value ="" default>Select Month</option>
-            <option value="whole" default>whole year</option>
+            <option value="whole" default>Whole year</option>
             <option value="01">Jan</option>
             <option value="02">Feb</option>
             <option value="03">Mar</option>
@@ -272,7 +272,7 @@
         <div *ngIf="tempData.flag == 'dealer' ">
             <div class="col-md-12 form-group">
               <label for="dealer">Dealer</label>
-              <input type="text" class="form-control" name="dealer" [(ngModel)]="dealer_modal.dealer" required placeholder="enter name" />
+              <input type="text" class="form-control" name="dealer" [(ngModel)]="dealer_modal.dealer" disabled required placeholder="enter name" />
             </div>
             <div class="col-md-12 form-group">
               <label for="date">Date</label>

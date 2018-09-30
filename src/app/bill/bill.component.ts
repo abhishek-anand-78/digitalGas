@@ -162,7 +162,7 @@ export class BillComponent implements OnInit {
       console.log(data);
     }, err => {
       console.log();
-      this.dealersList = ['Pann', 'Mann','wolring'];
+      // this.dealersList = ['Pann', 'Mann','wolring'];
     })
   }
 
@@ -188,9 +188,9 @@ export class BillComponent implements OnInit {
         console.log(res);
         this.ngOnInit();
         var file = new Blob([res], {type: 'application/pdf'});
-        var fileURL = window.URL.createObjectURL(file);
+        var fileURL = window.URL.createObjectURL(file);        
         a.href = fileURL;
-        a.download = 'filename.pdf';
+        a.download = this.billData['customerName'] + '_' +this.billData['date'] + '.pdf';
         a.click();                               
       }, err => {
         console.log("error occurred", err);

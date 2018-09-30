@@ -139,7 +139,7 @@ export class TransactionComponent implements OnInit {
         let file = new Blob(binaryData, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
         let fileURL = window.URL.createObjectURL(file);
         a.href = fileURL;
-        a.download = 'export.xlsx';
+        a.download = this.tempData['flag'] + '_' + this.tempData['month'] + '_' + this.tempData['year'] + '.xlsx';
         a.click();
       }, err => {
         console.log("error occurred", err);

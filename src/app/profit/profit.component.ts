@@ -102,7 +102,7 @@ export class ProfitComponent implements OnInit {
         let file = new Blob(binaryData, {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
         let fileURL = window.URL.createObjectURL(file);
         a.href = fileURL;
-        a.download = 'export.xlsx';
+        a.download = 'Profit_' + this.tempData['month'] +' - '+ this.tempData['year'] + '.xlsx';
         a.click();
       }, err => {
         console.log("error occurred", err);
