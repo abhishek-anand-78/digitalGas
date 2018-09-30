@@ -132,7 +132,7 @@ wordcreator = function (data) {
     return new Promise(function (resolve, reject) {
         // triggers rendering        
         document.generate(); 
-        document.pdfkitDoc.pipe(fs.createWriteStream('G:\\digitalGas\\downloads\\' + data.billNumber + "_" + data.date + ".pdf"));
+        document.pdfkitDoc.pipe(fs.createWriteStream('G:\\digitalGas\\downloads\\' + data.customerName + "_" + data.date + ".pdf"));
         setTimeout(function(){
             resolve();
         },1000)                
