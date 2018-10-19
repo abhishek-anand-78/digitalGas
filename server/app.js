@@ -250,6 +250,17 @@ app.get('/dealerList', json, function (req, res) {
     })
 });
 
+app.get('/customerList', json, function (req, res) {    
+    console.log("req body >>>>>>>", req.body);
+    MongoQuery.getCustomerList(DB_NAME, req.body, 'CustomerData').then(function (response) {    
+        console.log('Details found successfully...');
+        res.status(200).send({ "success": 'Y', "data": response });               
+    }, function (msg) {
+        console.log("DB error occurred...", msg);
+        res.status(500).send({ "success": 'N', msg: msg });
+    })
+});
+
 var server = app.listen(8081, function () {
     var host = server.address().address
     var port = server.address().port

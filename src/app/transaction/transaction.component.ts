@@ -17,6 +17,10 @@ export class TransactionComponent implements OnInit {
   search_loading = false;
   download_loading = false;
   show_table = false;
+  show_dealer_list = false;
+  show_customer_list = false;
+  customer_list = [];
+  dealer_list = [];
   transactionDetails = {};
 
   misc_modal = {
@@ -72,8 +76,15 @@ export class TransactionComponent implements OnInit {
     this.transactionForm = this.formBuilder.group({
       months: ['', Validators.required],
       year: ['', Validators.required],
-      flag: ['', Validators.required]
+      flag: ['', Validators.required],
+      cust_dealer: ''
     });
+    this.http.get('http://localhost:8081/dealerList').subscribe((data: any) => {
+      this.dealer_list = data.data;    
+    })
+    this.http.get('http://localhost:8081/customerList').subscribe((data: any) => {
+      this.customer_list = data.data;    
+	  })
   }
 
   get f() {
@@ -87,9 +98,24 @@ export class TransactionComponent implements OnInit {
     this.transData = {
       month: this.transactionForm.controls.months.value,
       year: this.transactionForm.controls.year.value,
-      flag: this.transactionForm.controls.flag.value
+      flag: this.transactionForm.controls.flag.value,
+      cust_dealer: this.transactionForm.controls.cust_dealer.value
     }
     return this.transData;
+  }
+
+  showOption(){
+    if(this.transactionForm.controls.flag.value == 'customer'){
+      console.log('it is customer');
+      this.show_customer_list = true;
+      this.show_dealer_list = false;
+
+    }
+    if(this.transactionForm.controls.flag.value == 'dealer'){
+      console.log('it is dealer');
+      this.show_dealer_list = true;
+      this.show_customer_list = false;
+    }
   }
 
   search(): void {
@@ -97,6 +123,7 @@ export class TransactionComponent implements OnInit {
     this.tempData = this.initialize();
     let url = "http://localhost:8081/fetchbill";
     var me = this;
+    console.log(this.tempData);
     this.http.post(url, this.transData)
       .subscribe(res => {
         console.log(res);
@@ -151,8 +178,9 @@ export class TransactionComponent implements OnInit {
       this.misc_modal = {
         date: x.date,
         description: x.description,
-        netAmountPayable: x.netAmountPayable,
-        totalAmount: x.netAmountPayable
+        totalAmount: 0,
+        netAmountPayable: Number(x.netAmountPayable)
+        
       };
     }       
     else if(x.flag == 'stock' ){

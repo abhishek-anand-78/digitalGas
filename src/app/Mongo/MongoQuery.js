@@ -23,11 +23,26 @@ var MongoQuery = function () {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.find({}, {name : 1}).toArray(function (err, data) {
+					userCollection.find({},{ 'fields': {'name': 1, '_id': 0}}).toArray(function (err, data) {
 						if (err) {
 							reject(err);
 						}
 						console.log(data)
+						reslove(data);
+					});
+				});
+			});
+		},
+		getCustomerList: function (db_name, query, tableName) {
+			return new Promise(function (reslove, reject) {
+				new ConnectionFactory().getConnection().then(function (con) {
+					var collentionAccessor = con.db(db_name);
+					let userCollection = collentionAccessor.collection(tableName);
+					userCollection.find({'flag': 'customer'},{'fields': {customerName : 1, '_id': 0}}).toArray(function (err, data) {
+						if (err) {
+							reject(err);
+						}
+						console.log(data);
 						reslove(data);
 					});
 				});
@@ -38,13 +53,24 @@ var MongoQuery = function () {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.aggregate([
-						// {$addFields: { "month": {$month: new Date('2018-09-20')}, 'year': {$year: new Date('2018-09-20')}}},
-						// {$addFields: { "month": {$month: new Date("$date")}, 'year': {$year: new Date("$date")}}},
-						{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
-						{$match: { month: query.month, year: query.year, flag: query.flag }}
-						// {$match: { month: 9, year: 2018, customerName: 'shgda' }}
-					]).toArray(function (err, data) {
+					let resultData;
+					if(query.flag == 'dealer'){
+						resultData = userCollection.aggregate([						
+							{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { month: query.month, year: query.year, flag: query.flag, dealer: query.cust_dealer }}						
+						]);
+					}else if(query.flag == 'customer'){
+						resultData = userCollection.aggregate([						
+							{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { month: query.month, year: query.year, flag: query.flag, customerName: query.cust_dealer }}						
+						]);
+					}else{
+						resultData = userCollection.aggregate([						
+							{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { month: query.month, year: query.year, flag: query.flag }}						
+						]);
+					}
+					resultData.toArray(function (err, data) {
 						if (err) {
 							reject(err);
 						}
@@ -59,19 +85,73 @@ var MongoQuery = function () {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.aggregate([						
-						{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
-						{$match: { year: query.year, flag: query.flag }}						
-					]).toArray(function (err, data) {
+					let resultData;
+					if(query.flag == 'dealer'){
+						resultData = userCollection.aggregate([						
+							{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { year: query.year, flag: query.flag, dealer: query.cust_dealer }}						
+						]);						
+					}else if(query.flag == 'customer'){
+						resultData = userCollection.aggregate([						
+							{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { year: query.year, flag: query.flag, customerName: query.cust_dealer }}						
+						]);
+					}else{
+						resultData = userCollection.aggregate([						
+							{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+							{$match: { year: query.year, flag: query.flag }}						
+						]);
+					}
+					resultData.toArray(function (err, data) {
 						if (err) {
 							reject(err);
 						}
 						console.log(data);
 						reslove(data);
 					});
+					
 				});
 			});
 		},
+		// getMonthlyBillData: function (db_name, query, tableName) {
+		// 	return new Promise(function (reslove, reject) {
+		// 		new ConnectionFactory().getConnection().then(function (con) {
+		// 			var collentionAccessor = con.db(db_name);
+		// 			let userCollection = collentionAccessor.collection(tableName);
+		// 			userCollection.aggregate([
+		// 				// {$addFields: { "month": {$month: new Date('2018-09-20')}, 'year': {$year: new Date('2018-09-20')}}},
+		// 				// {$addFields: { "month": {$month: new Date("$date")}, 'year': {$year: new Date("$date")}}},
+		// 				{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
+		// 				{$match: { month: query.month, year: query.year, flag: query.flag }}
+		// 				// {$match: { month: 9, year: 2018, customerName: 'shgda' }}
+		// 			]).toArray(function (err, data) {
+		// 				if (err) {
+		// 					reject(err);
+		// 				}
+		// 				console.log(data);
+		// 				reslove(data);
+		// 			});
+		// 		});
+		// 	});
+		// },
+		// getYearlyBillData: function (db_name, query, tableName) {
+		// 	return new Promise(function (reslove, reject) {
+		// 		new ConnectionFactory().getConnection().then(function (con) {
+		// 			var collentionAccessor = con.db(db_name);
+		// 			let userCollection = collentionAccessor.collection(tableName);
+		// 			userCollection.aggregate([						
+		// 				{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
+		// 				{$match: { year: query.year, flag: query.flag }}						
+		// 			]).toArray(function (err, data) {
+		// 				if (err) {
+		// 					reject(err);
+		// 				}
+		// 				console.log(data);
+		// 				reslove(data);
+		// 			});
+		// 		});
+		// 	});
+		// },
 		getMonthlyProfit: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
@@ -149,7 +229,6 @@ var MongoQuery = function () {
 				});
 			});
 		},
-
 		// these features will be available in next release
 		updateUserRecord: function (db_name, userID, data, tableName) {
 			return new Promise(function (reslove, reject) {
