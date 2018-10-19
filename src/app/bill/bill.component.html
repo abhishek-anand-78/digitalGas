@@ -1,7 +1,7 @@
 <div class="container">
     <div>
         <button [disabled]="customer"  style="margin-left: 63%;" class="btn btn-primary col-md-2" (click)='toggleBill("customer")'>Customer</button>
-        <button [disabled]="!customer" class="btn btn-primary col-md-2" style="margin-left:20px;" (click)='toggleBill("dealer")'>Dealer</button>
+        <button [disabled]="!customer" class="btn btn-success col-md-2" style="margin-left:20px;" (click)='toggleBill("dealer")'>Dealer</button>
     </div>
 </div>
 <div *ngIf="customer == true" class="container">

@@ -15,7 +15,7 @@
     <div class="col-md-2 col-lg-2 col-sm-2 form-group" *ngIf="show_customer_list">          
       <select formControlName="cust_dealer" class="form-control">
             <option value ="" default>Select Customer</option>            
-            <option *ngFor="let customer of customer_list" value="customer.customerName">{{customer.customerName}}</option>      
+            <option *ngFor="let customer of customer_list" value={{customer.customerName}}>{{customer.customerName}}</option>      
           </select>
     </div>    
     <div class="col-md-2 col-lg-2 col-sm-2 form-group" *ngIf="show_dealer_list">          

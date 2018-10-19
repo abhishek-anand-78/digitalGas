@@ -111,9 +111,12 @@ export class TransactionComponent implements OnInit {
       this.show_dealer_list = false;
 
     }
-    if(this.transactionForm.controls.flag.value == 'dealer'){
+    else if(this.transactionForm.controls.flag.value == 'dealer'){
       console.log('it is dealer');
       this.show_dealer_list = true;
+      this.show_customer_list = false;
+    }else{
+      this.show_dealer_list = false;
       this.show_customer_list = false;
     }
   }
