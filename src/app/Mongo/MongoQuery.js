@@ -38,7 +38,7 @@ var MongoQuery = function () {
 				new ConnectionFactory().getConnection().then(function (con) {
 					var collentionAccessor = con.db(db_name);
 					let userCollection = collentionAccessor.collection(tableName);
-					userCollection.find({'flag': 'customer'},{'fields': {customerName : 1, '_id': 0}}).toArray(function (err, data) {
+					userCollection.find({'flag': 'customer'},{'fields': {customerName : 1, '_id': 1}}).toArray(function (err, data) {
 						if (err) {
 							reject(err);
 						}

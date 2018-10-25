@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
 app.post('/generatePDF', json, function (req, res) {    
     console.log("req body >>>>>>>", req.body);
     wordcreator(req.body).then(function (data) {
-        res.sendFile('G:\\digitalGas\\downloads\\'+ req.body.customerName + "_" + req.body.date + ".pdf");  
+        res.sendFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads'+ req.body.customerName + "_" + req.body.date + ".pdf");  
     });
         
     MongoQuery.inserUserRecord(DB_NAME, req.body, 'CustomerData').then(function (response) {
@@ -81,7 +81,7 @@ app.post('/downloadexcel', json, function (req, res) {
     if(req.body.month == "whole"){
         MongoQuery.getYearlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response, req.body).then(function (){
-                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                res.sendFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx');
                 console.log('Details found .....');
             }, function(error){
                 console.log('error while sending response');
@@ -93,7 +93,7 @@ app.post('/downloadexcel', json, function (req, res) {
     }else{
         MongoQuery.getMonthlyBillData(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response, req.body).then(function (){
-                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                res.sendFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx');
                 console.log('Details found .....');
             }, function(error){
                 console.log('error while sending response');
@@ -132,7 +132,7 @@ wordcreator = function (data) {
     return new Promise(function (resolve, reject) {
         // triggers rendering        
         document.generate(); 
-        document.pdfkitDoc.pipe(fs.createWriteStream('G:\\digitalGas\\downloads\\' + data.customerName + "_" + data.date + ".pdf"));
+        document.pdfkitDoc.pipe(fs.createWriteStream('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads' + data.customerName + "_" + data.date + ".pdf"));
         setTimeout(function(){
             resolve();
         },1000)                
@@ -202,7 +202,7 @@ app.post('/downloadexcelProfit', json, function (req, res) {
     if(req.body.month == "whole"){
         MongoQuery.getYearlyProfit(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response, req.body).then(function (){
-                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                res.sendFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx');
                 // 'G:\\digitalGas\\downloads\\' + data.billNumber + "_" + data.date + ".pdf"'
                 console.log('Details found .....');
             }, function(error){
@@ -215,7 +215,7 @@ app.post('/downloadexcelProfit', json, function (req, res) {
     }else{
         MongoQuery.getMonthlyProfit(DB_NAME, req.body, 'CustomerData').then( function (response) {        
             generateExcel(response, req.body).then(function (){
-                res.sendFile('G:\\digitalGas\\downloads\\temp.xlsx');
+                res.sendFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx');
                 console.log('Details found .....');
             }, function(error){
                 console.log('error while sending response');

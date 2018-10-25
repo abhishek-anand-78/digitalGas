@@ -21,6 +21,7 @@ import { HttpModule } from '@angular/http';
 import { ProfitComponent } from './profit/profit.component';
 import { StockComponent } from './stock/stock.component';
 import { NgbdModalBasic } from './new-dealer-modal/dealer.component';
+import { GeneratepdfComponent } from './generatepdf/generatepdf.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NgbdModalBasic } from './new-dealer-modal/dealer.component';
     AboutComponent,
     ProfitComponent,
     StockComponent,
-    NgbdModalBasic
+    NgbdModalBasic,
+    GeneratepdfComponent
   ],
   imports: [
     BrowserModule,

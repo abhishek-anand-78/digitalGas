@@ -205,7 +205,7 @@ var generateExcel = function (response, header_excel) {
 
 
     return new Promise(function (Resolve, Reject) {
-        workbook.xlsx.writeFile('G:\\digitalGas\\downloads\\temp.xlsx').then(function () {            
+        workbook.xlsx.writeFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx').then(function () {            
         console.log('file is written');
         Resolve();
         })

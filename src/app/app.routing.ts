@@ -7,6 +7,7 @@ import { BillComponent } from './bill/bill.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { ProfitComponent } from './profit/profit.component';
 import { StockComponent } from './stock/stock.component';
+import { GeneratepdfComponent } from './generatepdf/generatepdf.component';
 //import { AuthGuard } from './_guards';
 
 const appRoutes: Routes = [
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
       { path: 'transactions', component: TransactionComponent },
       { path: 'about', component: AboutComponent },
       { path: 'profit', component: ProfitComponent },
-      { path: 'stock', component: StockComponent }
+      { path: 'stock', component: StockComponent },
+      { path: 'generatepdf', component: GeneratepdfComponent },
     ]
   },
   { path: '**', redirectTo: '' }
