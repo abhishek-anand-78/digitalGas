@@ -4,9 +4,9 @@
       <h4> Select Customer</h4>
     </div>    
     <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
-      <select formControlName="id" class="form-control">
+      <select formControlName="cust_dealer" class="form-control">
         <option value ="" default>Select Customer</option>            
-        <option *ngFor="let customer of customer_list" value={{customer._id}}>{{customer.customerName}}</option>      
+        <option *ngFor="let customer of customer_list" value={{customer.customerName}}>{{customer.customerName}}</option>      
       </select>
     </div>        
     <div class="col-md-2 col-lg-2 col-sm-2 form-group">          
@@ -44,3 +44,27 @@
     </div>
   </div>
 </form>
+
+<table class="table table-hover">
+  <thead>
+    <tr style="border: 1px solid black;text-align:center;">
+      <!-- <th scope="col">#</th> -->
+      <th scope="col-md-1">Customer Name</th>
+      <th scope="col-md-1">Date</th>
+      <th scope="col-md-1">Description</th>
+      <th scope="col-md-1">cylinder Size</th>
+      <th scope="col-md-1">Quantity</th>
+      <th scope="col-md-1">Amount Paid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of transactionDetails"  (click)="downloadFile(item)" style="text-align:center;">
+      <td>{{item.customerName}}</td>          
+      <td>{{item.date}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.cylinderSize}}</td>
+      <td>{{item.quantity}}</td>      
+      <td>{{item.amountPaid}}</td>      
+    </tr>
+  </tbody>
+</table>

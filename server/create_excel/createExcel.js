@@ -1,5 +1,7 @@
 var Excel = require('exceljs');
 var fs = require('fs');
+const file_path = 'E:\\github\\digitalGas\\downloads\\temp.xlsx';
+
 // _________exceute if no mongodb connection________________
 //var rawdata = fs.readFileSync("mock.json");
 //response = JSON.parse(rawdata);
@@ -205,7 +207,7 @@ var generateExcel = function (response, header_excel) {
 
 
     return new Promise(function (Resolve, Reject) {
-        workbook.xlsx.writeFile('C:\\Users\\abcks\\Desktop\\gas\\digitalGas\\downloads\\temp.xlsx').then(function () {            
+        workbook.xlsx.writeFile(file_path).then(function () {            
         console.log('file is written');
         Resolve();
         })
