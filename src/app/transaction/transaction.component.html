@@ -234,34 +234,34 @@
             <div class="row">
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="text" [(ngModel)]="customer_modal.quantity" name="quantity" (change)="calculateTotal('customer')" class="form-control" />              
+                    <input type="number" [(ngModel)]="customer_modal.quantity" name="quantity" (change)="calculateTotal('customer')" class="form-control" />              
                 </div>
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="rate">Rate </label>
-                    <input type="text" [(ngModel)]="customer_modal.rate" name="rate" (change)="calculateTotal('customer')" class="form-control" />              
+                    <input type="number" [(ngModel)]="customer_modal.rate" name="rate" (change)="calculateTotal('customer')" class="form-control" />              
                 </div>
                 <div class="col-md-4 col-lg-4 col-sm-4 form-group">
                     <label for="totalAmount">Total Amount</label>
-                    <input type="text" [(ngModel)]="customer_modal.totalAmount" name="totalAmount" disabled class="form-control"  />
+                    <input type="number" [(ngModel)]="customer_modal.totalAmount" name="totalAmount" disabled class="form-control"  />
                 </div>
             </div>
       
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="cgst">CGST %</label>
-                    <input type="text" [(ngModel)]="customer_modal.cgst" name="cgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
+                    <input type="number" [(ngModel)]="customer_modal.cgst" name="cgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.cgst.errors }" />
                 </div>
       
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="sgst">SGST %</label>
-                    <input type="text" [(ngModel)]="customer_modal.sgst" name="sgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
+                    <input type="number" [(ngModel)]="customer_modal.sgst" name="sgst" class="form-control" (change)="calculateTotal('customer')" [ngClass]="{ 'is-invalid': submitted && f.sgst.errors }" />
                 </div>
             </div>
       
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="netAmountPayable">Net Amount Payable</label>
-                    <input type="text" disabled [(ngModel)]="customer_modal.netAmountPayable" name="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
+                    <input type="number" disabled [(ngModel)]="customer_modal.netAmountPayable" name="netAmountPayable" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.netAmountPayable.errors }"
                     />
                 </div>
             </div>
@@ -269,13 +269,13 @@
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="amountPaid">Amount Paid</label>
-                    <input type="text" [(ngModel)]="customer_modal.amountPaid" name="amountPaid" (change)="calculateTotal('customer')" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
+                    <input type="number" [(ngModel)]="customer_modal.amountPaid" name="amountPaid" (change)="calculateTotal('customer')" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountPaid.errors }"
                     />
                 </div>
       
                 <div class="col-md-6 col-lg-6 col-sm-6 form-group">
                     <label for="amountDue">Amount Due</label>
-                    <input type="text" disabled [(ngModel)]="customer_modal.amountDue" name="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
+                    <input type="number" disabled [(ngModel)]="customer_modal.amountDue" name="amountDue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amountDue.errors }"
                     />
                 </div>
             </div>   
@@ -292,27 +292,27 @@
             </div>
             <div class="col-md-12 form-group">
               <label for="cylinderSize">Cylinder Size</label>
-              <input type="text" class="form-control" name="cylinderSize" [(ngModel)]="dealer_modal.cylinderSize" required placeholder="enter Cylinder Size" />
+              <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="dealer_modal.cylinderSize" required placeholder="enter Cylinder Size" />
             </div>
             <div class="col-md-12 form-group">
               <label for="quantity">Quantity</label>
-              <input type="text" class="form-control" name="quantity" [(ngModel)]="dealer_modal.quantity"  (change)="calculateTotal('dealer')" required placeholder="enter quantity" />
+              <input type="number" class="form-control" name="quantity" [(ngModel)]="dealer_modal.quantity"  (change)="calculateTotal('dealer')" required placeholder="enter quantity" />
             </div>
             <div class="col-md-12 form-group">
               <label for="rate">Rate</label>
-              <input type="text" class="form-control" name="rate" [(ngModel)]="dealer_modal.rate"  (change)="calculateTotal('dealer')" required  placeholder="enter rate" />
+              <input type="number" class="form-control" name="rate" [(ngModel)]="dealer_modal.rate"  (change)="calculateTotal('dealer')" required  placeholder="enter rate" />
             </div>
             <div class="col-md-12 form-group">
               <label for="totalAmount">Total Amount</label>
-              <input type="text" class="form-control" name="totalAmount" [(ngModel)]="dealer_modal.totalAmount" required placeholder="enter amount" />
+              <input type="number" class="form-control" name="totalAmount" [(ngModel)]="dealer_modal.totalAmount" required placeholder="enter amount" />
             </div>
             <div class="col-md-12 form-group">
               <label for="amountPaid">Amount Paid</label>
-              <input type="text" class="form-control" name="amountPaid" [(ngModel)]="dealer_modal.amountPaid" (change)="calculateTotal('dealer')" required placeholder="enter amount paid" />
+              <input type="number" class="form-control" name="amountPaid" [(ngModel)]="dealer_modal.amountPaid" (change)="calculateTotal('dealer')" required placeholder="enter amount paid" />
             </div>
             <div class="col-md-12 form-group">
               <label for="amountDue">Amount Due</label>
-              <input type="text" class="form-control" name="amountDue" [(ngModel)]="dealer_modal.amountDue" required  placeholder="enter amount due" />
+              <input type="number" class="form-control" name="amountDue" [(ngModel)]="dealer_modal.amountDue" required  placeholder="enter amount due" />
             </div>        
           </div>   
           
@@ -327,23 +327,30 @@
           </div>
           <div class="col-md-12 form-group">
             <label for="cylinderType">Cylinder Type</label>
-            <input type="text" class="form-control" name="cylinderType" [(ngModel)]="stock_modal.cylinderType" required  placeholder="cylinderType" />
+            <!-- <input type="text" class="form-control" name="cylinderType" [(ngModel)]="stock_modal.cylinderType" required  placeholder="cylinderType" /> -->
+            
+            <!-- new change -->
+            <select id="category" class="form-control" name="cylinderType" [(ngModel)]="stock_modal.cylinderType" required>
+              <option>select a category</option>
+              <option *ngFor="let item of ['Domestic', 'Commercial']" value={{item}}>{{item}}</option>
+            </select>
+            <!-- ends -->
           </div>
           <div class="col-md-12 form-group">
             <label for="cylinderSize">Cylinder Size</label>
-            <input type="text" class="form-control" name="cylinderSize" [(ngModel)]="stock_modal.cylinderSize" required placeholder="cylinderSize" />
+            <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="stock_modal.cylinderSize" required placeholder="cylinderSize" />
           </div>
           <div class="col-md-12 form-group">
             <label for="quantity">Quantity</label>
-            <input type="text" class="form-control" name="quantity" [(ngModel)]="stock_modal.quantity" (change)="calculateTotal('stock')" required placeholder="Enter quantity" />
+            <input type="number" class="form-control" name="quantity" [(ngModel)]="stock_modal.quantity" (change)="calculateTotal('stock')" required placeholder="Enter quantity" />
           </div>
           <div class="col-md-12 form-group">
             <label for="rate">Rate</label>
-            <input type="text" class="form-control" name="rate" [(ngModel)]="stock_modal.rate" (change)="calculateTotal('stock')"  required  placeholder="Enter rate" />
+            <input type="number" class="form-control" name="rate" [(ngModel)]="stock_modal.rate" (change)="calculateTotal('stock')"  required  placeholder="Enter rate" />
           </div>
           <div class="col-md-12 form-group">
             <label for="totalAmount">Total Amount</label>
-                  <input type="text" name="totalAmount" disabled class="form-control" [(ngModel)]="stock_modal.totalAmount" placeholder="Enter Amount"/>
+            <input type="number" name="totalAmount" disabled class="form-control" [(ngModel)]="stock_modal.totalAmount" placeholder="Enter Amount"/>
           </div>        
       </div>
         <!-- Stock modal form ends here -->
@@ -360,7 +367,7 @@
             </div>
             <div class="col-md-12 form-group">
               <label for="netAmountPayable">Total Amount</label>
-              <input type="text" class="form-control" name="netAmountPayable" [(ngModel)]="misc_modal.netAmountPayable" required placeholder="enter netAmountPayable" />
+              <input type="number" class="form-control" name="netAmountPayable" [(ngModel)]="misc_modal.netAmountPayable" required placeholder="enter netAmountPayable" />
             </div>        
         </div> 
         <!-- Misc modal form ends here -->
