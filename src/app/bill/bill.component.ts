@@ -38,16 +38,16 @@ export class BillComponent implements OnInit {
       customerName: ['', Validators.required],
       address: ['', Validators.required],
       dealer: '',
-      billNumber: ['', Validators.required],
-      partyGstNumber: ['', Validators.required],
+      billNumber: [''],
+      partyGstNumber: [''],
       date: ['', Validators.required],
       cylinderSize: ['', Validators.required ],
-      description: ['', Validators.required],
+      description: [''],
       quantity: ['1', Validators.required],
       rate: ['0', Validators.required],
-      totalAmount: ['0' , Validators.required],      
-      cgst: ['0', Validators.required],
-      sgst: ['0', Validators.required],
+      totalAmount: ['0'],      
+      cgst: ['0'],
+      sgst: ['0'],
       netAmountPayable: ['0'],
       amountPaid: ['0'],
       amountDue: ['0'],
@@ -88,8 +88,8 @@ export class BillComponent implements OnInit {
     let quantity = Number(this.billForm.controls.quantity.value);
     let rate = Number(this.billForm.controls.rate.value);
     let totalAmount = Number(quantity * rate);    
-    let cgst = Number(this.billForm.controls.cgst.value);
-    let sgst = Number(this.billForm.controls.sgst.value);
+    let cgst = Number(this.billForm.controls.cgst.value) || 0;
+    let sgst = Number(this.billForm.controls.sgst.value) || 0;
     let netAmountPayable = Math.round(totalAmount +  ( totalAmount * ( Number( (cgst + sgst)/100 ) ) ));
     let amountPaid = Number(this.billForm.controls.amountPaid.value);
     let amountDue = (Number(netAmountPayable) - Number(amountPaid));

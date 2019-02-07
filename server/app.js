@@ -117,10 +117,11 @@ app.post('/downloadexcel', json, function (req, res) {
 wordcreator = function (data) {    
     const document = pdfInvoice({
         company: {
-          phone: '(99) 9 9999-9999',
+          phone: 'pH: 9623961009',
           email: 'spgasagency@gmail.com',
-          address: '106 New Pimpri, Wakad, Pune',
-          name: 'SP Gas Agency',
+          address1: 'Near Canal, Karad Vita Road,',
+          address2: 'Karad, Dist. Satara',
+          name: 'SP Gas Agency,',
         },
         date: data.date,
         customer: {

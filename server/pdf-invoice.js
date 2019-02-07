@@ -51,7 +51,8 @@ function PDFInvoice(_ref) {
 
       doc.fontSize(12).text(company.name, CONTENT_LEFT_PADDING, 450);
 
-      doc.text(company.address);
+      doc.text(company.address1);
+      doc.text(company.address2);
       doc.text(company.phone);
       doc.text(company.email);
 
