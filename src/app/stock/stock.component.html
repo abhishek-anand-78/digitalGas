@@ -13,7 +13,7 @@
         <div class="col-md-4 col-lg-4 col-sm-4 form-group">
             <label for="cylinderType">Cylinder Type</label>            
             <select id="category" class="form-control" formControlName="cylinderType">
-                <option>select a category</option>
+                <option value="">select a category</option>
                 <option *ngFor="let item of ['Domestic', 'Commercial']" value={{item}}>{{item}}</option>
               </select>
             <div *ngIf="submitted && f.cylinderType.errors" class="invalid-feedback">

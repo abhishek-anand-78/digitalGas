@@ -7,7 +7,8 @@ var http = require('http');
 var fs = require('fs');
 const pdfInvoice = require('./pdf-invoice');
 const generateExcel = require('./create_excel/createExcel');
-const file_path = 'E:\\github\\digitalGas\\downloads';
+// const file_path = 'E:\\github\\digitalGas\\downloads';
+const file_path = 'C:\\Users\\Yogi Tarun\\Desktop\\digitalGas\\downloads';
 //mongodb configurations
 var HOST = 'localhost';
 var PORT = '27017';
@@ -45,7 +46,7 @@ app.post('/generatePDF', json, function (req, res) {
         console.log('Details inserted successfully...');
         // res.status(200).send({ "success": 'Y', "data": response });               
     }, function (msg) {
-        console.log("DB error occurred...", msg);
+        console.log("DB error occurred...", msg);        
         res.status(500).send({ "success": 'N', msg: msg });
     })
 });
@@ -81,6 +82,8 @@ app.post('/search', json, function (req, res) {
     }, function (msg) {
         console.log("DB error occurred...", msg);
         res.status(500).send({ "success": 'N', msg: msg });
+    }).catch(function(e){
+        console.log(e);
     })
 });
 
@@ -181,7 +184,7 @@ app.post('/fetchbill', json, function (req, res) {
         }, function (msg) {
             console.log("DB error occurred...", msg);
             res.status(500).send({ "success": 'N', msg: msg });
-        })
+        });
     }
     
 });

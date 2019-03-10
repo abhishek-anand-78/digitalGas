@@ -97,17 +97,19 @@ export class StockComponent implements OnInit {
     this.http.post(url, this.billData).subscribe(data => {
       console.log(data);
       this.ngOnInit();
+      alert("Data saved!!");
     }, err => {
-      console.log();      
+      alert("Error. Check data base connection!!!"); 
     })
   }
 
   confirmBill(content) {
     this.loadData();
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
-      this.saveStockBill();         
+      this.saveStockBill();                  
     }, (reason) => {
       console.log(reason);
+      alert("Error. Check data base connection!!!");           
     });
   }
 
@@ -135,13 +137,14 @@ export class StockComponent implements OnInit {
     }
     this.http.post(url, miscData).subscribe(data => {
       console.log(data);
+      alert("Data inserted!!"); 
       this.modal = {
         date: '',
         description: '',
         netAmountPayable: 0
       }
-    }, err => {
-      console.log();      
+    }, err => {      
+      alert("Error. Check data base connection!!!");    
     })
   }
 

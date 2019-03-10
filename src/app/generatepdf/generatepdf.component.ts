@@ -92,7 +92,7 @@ export class GeneratepdfComponent implements OnInit {
       var fileURL = window.URL.createObjectURL(file);        
       a.href = fileURL;
       a.download = x.customerName + '_' +x.date + '.pdf';
-      a.click();                               
+      a.click();                                
     }, err => {
       console.log("error occurred", err);
     });    

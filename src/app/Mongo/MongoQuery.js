@@ -15,6 +15,8 @@ var MongoQuery = function () {
 						console.log(data)
 						reslove(data);
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		},
@@ -30,6 +32,8 @@ var MongoQuery = function () {
 						console.log(data)
 						reslove(data);
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		},
@@ -45,6 +49,8 @@ var MongoQuery = function () {
 						console.log(data);
 						reslove(data);
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		},
@@ -77,6 +83,8 @@ var MongoQuery = function () {
 						console.log(data);
 						reslove(data);
 					});
+				}).catch(function(e){
+					reject(e);
 				});
 			});
 		},
@@ -104,54 +112,18 @@ var MongoQuery = function () {
 					}
 					resultData.toArray(function (err, data) {
 						if (err) {
+							console.log("sadasjdlkajslkdalksjdklaj");
 							reject(err);
 						}
 						console.log(data);
 						reslove(data);
 					});
 					
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
-		},
-		// getMonthlyBillData: function (db_name, query, tableName) {
-		// 	return new Promise(function (reslove, reject) {
-		// 		new ConnectionFactory().getConnection().then(function (con) {
-		// 			var collentionAccessor = con.db(db_name);
-		// 			let userCollection = collentionAccessor.collection(tableName);
-		// 			userCollection.aggregate([
-		// 				// {$addFields: { "month": {$month: new Date('2018-09-20')}, 'year': {$year: new Date('2018-09-20')}}},
-		// 				// {$addFields: { "month": {$month: new Date("$date")}, 'year': {$year: new Date("$date")}}},
-		// 				{$addFields: { "month":{$substrBytes: ["$date", 5, 2] }, "year":{$substrBytes: ["$date", 0, 4]} } },
-		// 				{$match: { month: query.month, year: query.year, flag: query.flag }}
-		// 				// {$match: { month: 9, year: 2018, customerName: 'shgda' }}
-		// 			]).toArray(function (err, data) {
-		// 				if (err) {
-		// 					reject(err);
-		// 				}
-		// 				console.log(data);
-		// 				reslove(data);
-		// 			});
-		// 		});
-		// 	});
-		// },
-		// getYearlyBillData: function (db_name, query, tableName) {
-		// 	return new Promise(function (reslove, reject) {
-		// 		new ConnectionFactory().getConnection().then(function (con) {
-		// 			var collentionAccessor = con.db(db_name);
-		// 			let userCollection = collentionAccessor.collection(tableName);
-		// 			userCollection.aggregate([						
-		// 				{$addFields: { "year":{$substrBytes: ["$date", 0, 4]} } },
-		// 				{$match: { year: query.year, flag: query.flag }}						
-		// 			]).toArray(function (err, data) {
-		// 				if (err) {
-		// 					reject(err);
-		// 				}
-		// 				console.log(data);
-		// 				reslove(data);
-		// 			});
-		// 		});
-		// 	});
-		// },
+		},		
 		getMonthlyProfit: function (db_name, query, tableName) {
 			return new Promise(function (reslove, reject) {
 				new ConnectionFactory().getConnection().then(function (con) {
@@ -168,7 +140,9 @@ var MongoQuery = function () {
 						console.log(data)
 						reslove(data);
 					});
-				});
+				}).catch((e)=>{
+					reject(e);
+				})
 			});
 		},
 		getYearlyProfit: function (db_name, query, tableName) {
@@ -187,6 +161,8 @@ var MongoQuery = function () {
 						console.log(data)
 						reslove(data);
 					});
+				}).catch((e) => {
+					reject(e);
 				});
 			});
 		},
@@ -202,6 +178,8 @@ var MongoQuery = function () {
 						}
 						reslove('Y');
 					});
+				}).catch((e) => {
+					reject(e);
 				});
 			});
 		},
@@ -226,6 +204,8 @@ var MongoQuery = function () {
 						}
 
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		},
@@ -241,6 +221,8 @@ var MongoQuery = function () {
 						}
 						reslove(result);
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		},
@@ -255,6 +237,8 @@ var MongoQuery = function () {
 						}
 						reslove(response);
 					});
+				}).catch((e)=>{
+					reject(e);
 				});
 			});
 		}

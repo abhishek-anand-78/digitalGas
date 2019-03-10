@@ -1,6 +1,7 @@
 var Excel = require('exceljs');
 var fs = require('fs');
-const file_path = 'E:\\github\\digitalGas\\downloads\\temp.xlsx';
+// const file_path = 'E:\\github\\digitalGas\\downloads\\temp.xlsx';
+const file_path = 'C:\\Users\\Yogi Tarun\\Desktop\\digitalGas\\downloads\\temp.xlsx'
 
 // _________exceute if no mongodb connection________________
 //var rawdata = fs.readFileSync("mock.json");

@@ -128,8 +128,7 @@ export class TransactionComponent implements OnInit {
     var me = this;
     console.log(this.tempData);
     this.http.post(url, this.transData)
-      .subscribe(res => {
-        console.log(res);
+      .subscribe(res => {        
         this.search_loading = false;
         this.show_table = true;
         this.transactionDetails = res;

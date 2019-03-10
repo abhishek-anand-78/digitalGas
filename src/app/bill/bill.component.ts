@@ -125,6 +125,7 @@ export class BillComponent implements OnInit {
   }
 
   fetchDealerList(){
+    this.dealersList = [];
     this.http.get('http://localhost:8081/dealerList').subscribe((result : any) =>{
       result.data.forEach(element => {
         this.dealersList.push(element.name);
@@ -150,18 +151,18 @@ export class BillComponent implements OnInit {
     let url = "http://localhost:8081/savebill";
     this.http.post(url, this.billData).subscribe(data => {
       console.log(data);      
-      this.ngOnInit();      
-    }, err => {
-      console.log();
-      this.dealersList = ['Pann', 'Mann','wolring'];
+      this.ngOnInit(); 
+      alert("Data inserted!!");         
+    }, err => {            
+      alert("Error. Check data base connection!!!"); 
     })
   }
 
   addNewDealer(result){
     this.http.post('http://localhost:8081/adddealer', result).subscribe(data => {
-      console.log(data);
+      this.fetchDealerList();
     }, err => {
-      console.log();
+      alert("Error. Check data base connection!!!"); 
       // this.dealersList = ['Pann', 'Mann','wolring'];
     })
   }
@@ -191,18 +192,21 @@ export class BillComponent implements OnInit {
         var fileURL = window.URL.createObjectURL(file);        
         a.href = fileURL;
         a.download = this.billData['customerName'] + '_' +this.billData['date'] + '.pdf';
-        a.click();                               
+        a.click();        
+        alert("Data inserted!!");                       
       }, err => {
         console.log("error occurred", err);
+        alert("Error. Check data base connection!!!"); 
       });    
   }
  openPdfModal(content){
    this.confirm = true;
    this.loadData();
   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {      
-      this.generateBill();
+      this.generateBill();      
   }, (reason) => {
     console.log(reason);
+    alert("Error. Check data base connection!!!"); 
   });
  }
 

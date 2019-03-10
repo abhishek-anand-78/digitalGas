@@ -118,8 +118,8 @@
       <tbody>
         <tr *ngFor="let item of transactionDetails.data"  (click)="open(content, item)" style="text-align:center;">          
           <td>{{item.date}}</td>
-          <td>{{item.cylinderSize}}</td>
           <td>{{item.cylinderType}}</td>
+          <td>{{item.cylinderSize}}</td>
           <td>{{item.quantity}}</td>
           <td>{{item.rate}}</td>          
           <td>{{item.netAmountPayable}}</td>
@@ -292,7 +292,14 @@
             </div>
             <div class="col-md-12 form-group">
               <label for="cylinderSize">Cylinder Size</label>
-              <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="dealer_modal.cylinderSize" required placeholder="enter Cylinder Size" />
+              <select class="form-control" [(ngModel)]="dealer_modal.cylinderSize" name="cylinderSize">
+                <option default>Select Size</option>
+                <option value='12'>12</option>
+                <option value='15'>15</option>
+                <option value='17'>17</option>
+                <option value='21'>21</option>                        
+              </select>
+              <!-- <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="dealer_modal.cylinderSize" required placeholder="enter Cylinder Size" /> -->
             </div>
             <div class="col-md-12 form-group">
               <label for="quantity">Quantity</label>
@@ -338,7 +345,14 @@
           </div>
           <div class="col-md-12 form-group">
             <label for="cylinderSize">Cylinder Size</label>
-            <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="stock_modal.cylinderSize" required placeholder="cylinderSize" />
+            <select class="form-control" [(ngModel)]="stock_modal.cylinderSize" name="cylinderSize">
+              <option default>Select Size</option>
+              <option value='12'>12</option>
+              <option value='15'>15</option>
+              <option value='17'>17</option>
+              <option value='21'>21</option>                        
+            </select>
+            <!-- <input type="number" class="form-control" name="cylinderSize" [(ngModel)]="stock_modal.cylinderSize" required placeholder="cylinderSize" /> -->
           </div>
           <div class="col-md-12 form-group">
             <label for="quantity">Quantity</label>
